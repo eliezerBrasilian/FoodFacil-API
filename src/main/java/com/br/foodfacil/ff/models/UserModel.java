@@ -1,9 +1,11 @@
 package com.br.foodfacil.ff.models;
 
+import com.br.foodfacil.ff.dtos.AddressDto;
 import com.br.foodfacil.ff.enums.UserRole;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,11 +28,14 @@ public class UserModel implements UserDetails {
     private UserRole userRole;
     private Date createdAt;
     private Date updatedAt;
+    @Field("address")
+    private AddressDto address;
 
     public UserModel(String email, String password, UserRole userRole) {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+        this.address = null;
     }
 
     @Override

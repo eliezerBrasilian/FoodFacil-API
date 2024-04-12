@@ -29,4 +29,10 @@ public class AuthController {
         System.out.println(registerDto.toString());
         return authorizationService.register(registerDto);
     }
+
+    @PostMapping("/google-login")
+    public ResponseEntity<Object> loginWithGoogle(@RequestBody RegisterDto registerDto) {
+        System.out.println(registerDto.toString());
+        return authorizationService.loginWithGoogle(registerDto);
+    }
 }
