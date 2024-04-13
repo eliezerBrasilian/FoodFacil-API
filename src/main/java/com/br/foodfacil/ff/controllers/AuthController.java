@@ -2,6 +2,7 @@ package com.br.foodfacil.ff.controllers;
 
 import com.br.foodfacil.ff.dtos.AuthDTO;
 import com.br.foodfacil.ff.dtos.RegisterDto;
+import com.br.foodfacil.ff.dtos.RegisterGoogleDto;
 import com.br.foodfacil.ff.services.AuthService;
 import com.br.foodfacil.ff.utils.AppUtils;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/google-login")
-    public ResponseEntity<Object> loginWithGoogle(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<Object> loginWithGoogle(@RequestBody RegisterGoogleDto registerDto) {
         System.out.println(registerDto.toString());
         return authorizationService.loginWithGoogle(registerDto);
     }

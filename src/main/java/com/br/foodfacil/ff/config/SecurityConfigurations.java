@@ -1,6 +1,7 @@
 package com.br.foodfacil.ff.config;
 
 import com.br.foodfacil.ff.filter.SecurityFilter;
+import com.br.foodfacil.ff.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,15 +29,15 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/exibir_vendas").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/salgado").authenticated()
+                        .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/exibir_vendas").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

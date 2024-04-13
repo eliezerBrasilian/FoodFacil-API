@@ -24,19 +24,30 @@ public class UserModel implements UserDetails {
     @Id
     private String id;
     private String email;
+    private String name;
     private String password;
     private UserRole userRole;
+    private String profilePicture;
     private Date createdAt;
     private Date updatedAt;
     @Field("address")
     private AddressDto address;
+    private Double moneySpentTotal;
+    private int amountOfItemsBoughtTotal;
+    private int amountOfCouponsUsed;
 
-    public UserModel(String email, String password, UserRole userRole) {
+    public UserModel(String email, String password, UserRole userRole, String name, String profilePicture) {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+        this.name = name;
+        this.profilePicture = profilePicture;
         this.address = null;
+        this.amountOfCouponsUsed = 0;
+        this.amountOfItemsBoughtTotal = 0;
+        this.moneySpentTotal = 0d;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

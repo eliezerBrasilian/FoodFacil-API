@@ -29,10 +29,16 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null) {
             var email = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByEmail(email);
+            var userModelOptional = userRepository.findByEmail(email);
 
-            if (user != null) {
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            if(userModelOptional.isPresent()){
+                var userModel = userModelOptional.get();
+                var userDetails = org.springframework.security.core.userdetails.User.builder()
+                        .username(userModel.getEmail())
+                        .password(userModel.getPassword())
+                        .authorities(userModel.getAuthorities())
+                        .build();
+                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
