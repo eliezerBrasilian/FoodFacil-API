@@ -32,6 +32,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/salgado").authenticated()
+                        .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/adicional").authenticated()
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/exibir_vendas").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )

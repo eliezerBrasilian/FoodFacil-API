@@ -5,7 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.br.foodfacil.ff.models.UserModel;
+import com.br.foodfacil.ff.models.User;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -17,7 +17,7 @@ public class TokenService {
 
     private String secret = "segredinho";
 
-    public String generateToken(UserModel userModel) {
+    public String generateToken(User userModel) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 

@@ -23,6 +23,11 @@ public class SalgadoController {
         return salgadoService.register(salgadoDto);
     }
 
+    @GetMapping()
+    ResponseEntity<Object> getAll(){
+        return salgadoService.salgadosList();
+    }
+
     @GetMapping("/in-offer")
     ResponseEntity<Object> getAllInOffer(){
         return salgadoService.salgadosInOfferList();

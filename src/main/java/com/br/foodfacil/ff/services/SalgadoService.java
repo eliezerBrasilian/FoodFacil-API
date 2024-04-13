@@ -28,6 +28,15 @@ public class SalgadoService {
         return ResponseEntity.ok().body(data);
     }
 
+    public ResponseEntity<Object> salgadosList(){
+        var list = salgadoRepository.findAll();
+
+        var data = Map.of("message","todos salgados",
+                "lista",list);
+
+        return ResponseEntity.ok().body(data);
+    }
+
     public ResponseEntity<Object> salgadosInOfferList(){
         var list = salgadoRepository.findByInOffer(true);
 

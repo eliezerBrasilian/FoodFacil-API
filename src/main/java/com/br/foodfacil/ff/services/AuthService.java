@@ -1,9 +1,8 @@
 package com.br.foodfacil.ff.services;
 import com.br.foodfacil.ff.dtos.AuthDTO;
-import com.br.foodfacil.ff.dtos.LoginResponseDto;
 import com.br.foodfacil.ff.dtos.RegisterDto;
 import com.br.foodfacil.ff.dtos.RegisterGoogleDto;
-import com.br.foodfacil.ff.models.UserModel;
+import com.br.foodfacil.ff.models.User;
 import com.br.foodfacil.ff.repositories.UserRepository;
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -62,7 +61,7 @@ public class AuthService implements UserDetailsService {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
-            var token = tokenService.generateToken((UserModel) auth.getPrincipal());
+            var token = tokenService.generateToken((User) auth.getPrincipal());
             return ResponseEntity.ok(token);
         }catch (RuntimeException e){
             e.printStackTrace();
@@ -81,7 +80,7 @@ public class AuthService implements UserDetailsService {
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
 
-        var newUser = new UserModel(registerDto.email(),
+        var newUser = new User(registerDto.email(),
                 encryptedPassword, registerDto.role(),
                 registerDto.name(),null
                 );
@@ -137,7 +136,7 @@ public class AuthService implements UserDetailsService {
         else{
             String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
 
-            var newUser = new UserModel(registerDto.email(),
+            var newUser = new User(registerDto.email(),
                     encryptedPassword, registerDto.role(), registerDto.name(),
                     registerDto.profilePicture());
             newUser.setCreatedAt(new Date(System.currentTimeMillis()));

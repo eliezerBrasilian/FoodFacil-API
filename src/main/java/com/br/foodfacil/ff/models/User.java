@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class UserModel implements UserDetails {
+public class User implements UserDetails {
     @Id
     private String id;
     private String email;
@@ -36,7 +36,7 @@ public class UserModel implements UserDetails {
     private int amountOfItemsBoughtTotal;
     private int amountOfCouponsUsed;
 
-    public UserModel(String email, String password, UserRole userRole, String name, String profilePicture) {
+    public User(String email, String password, UserRole userRole, String name, String profilePicture) {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
