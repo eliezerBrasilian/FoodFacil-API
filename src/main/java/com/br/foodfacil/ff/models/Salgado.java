@@ -35,8 +35,8 @@ public class Salgado {
         this.name = salgadoDto.name();
         this.description = salgadoDto.description();
         this.image = salgadoDto.image();
-        this.inOffer = false;
-        this.priceInOffer = salgadoDto.price();
+        this.inOffer = salgadoDto.inOffer();
+        this.priceInOffer = salgadoDto.priceInOffer();
         this.disponibilidade = salgadoDto.disponibilidade();
         this.acompanhamentos = salgadoDto.acompanhamentos();
     }

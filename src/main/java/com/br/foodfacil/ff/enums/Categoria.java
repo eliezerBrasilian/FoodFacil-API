@@ -7,7 +7,8 @@ public enum Categoria {
     PASTEL("Pastel"),
     HOTDOG("Hot Dog"),
     COMBO("Combo"),
-    CONGELADOS("Congelados");
+    CONGELADOS("Congelados"),
+    BATATAS("Batatas");
 
     public final String value;
 

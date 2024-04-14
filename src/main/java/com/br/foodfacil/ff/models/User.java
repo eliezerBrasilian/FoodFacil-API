@@ -1,6 +1,6 @@
 package com.br.foodfacil.ff.models;
 
-import com.br.foodfacil.ff.dtos.AddressDto;
+import com.br.foodfacil.ff.dtos.Address;
 import com.br.foodfacil.ff.enums.UserRole;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private Date createdAt;
     private Date updatedAt;
     @Field("address")
-    private AddressDto address;
+    private Address address;
     private Double moneySpentTotal;
     private int amountOfItemsBoughtTotal;
     private int amountOfCouponsUsed;
@@ -47,7 +47,6 @@ public class User implements UserDetails {
         this.amountOfItemsBoughtTotal = 0;
         this.moneySpentTotal = 0d;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,9 +72,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
-
-    }
+        return true;}
 
     @Override
     public boolean isCredentialsNonExpired() {
