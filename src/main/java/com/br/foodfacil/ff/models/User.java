@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class User implements UserDetails {
     private Double moneySpentTotal;
     private int amountOfItemsBoughtTotal;
     private int amountOfCouponsUsed;
+    private List<Cupom> cupoms;
 
     public User(String email, String password, UserRole userRole, String name, String profilePicture) {
         this.email = email;
@@ -46,6 +48,7 @@ public class User implements UserDetails {
         this.amountOfCouponsUsed = 0;
         this.amountOfItemsBoughtTotal = 0;
         this.moneySpentTotal = 0d;
+        this.cupoms = Collections.emptyList();
     }
 
     @Override
