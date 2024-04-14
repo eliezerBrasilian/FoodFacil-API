@@ -49,4 +49,5 @@ public class Cupom {
         // Define o status de expiração no cupom
         this.expired = expired;
     }
+
 }

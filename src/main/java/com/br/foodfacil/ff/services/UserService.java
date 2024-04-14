@@ -7,6 +7,7 @@ import com.br.foodfacil.ff.dtos.UserCupom;
 import com.br.foodfacil.ff.models.Cupom;
 import com.br.foodfacil.ff.repositories.CupomRepository;
 import com.br.foodfacil.ff.repositories.UserRepository;
+import com.br.foodfacil.ff.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -74,24 +75,37 @@ public class UserService {
         var optionalUser = userRepository.findById(userCupom.userUid());
         var optionalCupom = cupomRepository.findById(userCupom.cupom().getId());
 
+        var cupom = userCupom.cupom();
+        var cupomExpirado = AppUtils.verificaExpiracao(cupom.getExpirationDate());
+
         try {
             if (optionalUser.isPresent() && optionalCupom.isEmpty()) {
                 var data = Map.of("message", "cupom não existe");
-                return ResponseEntity.ok().body(data);
+                return ResponseEntity.badRequest().body(data);
 
             } else if (optionalUser.isEmpty() && optionalCupom.isPresent()) {
                 var data = Map.of("message", "usuario não existe");
-                return ResponseEntity.ok().body(data);
+                return ResponseEntity.badRequest().body(data);
+            }
+            else if(cupomExpirado){
+                var data = Map.of("message", "cupom está expirado");
+                return ResponseEntity.badRequest().body(data);
             }
 
             var user = optionalUser.get();
             var cupomsExistentes = user.getCupoms();
 
+            for (Cupom cupom_: cupomsExistentes){
+                if(Objects.equals(cupom_.getId(), cupom.getId())){
+                    var data = Map.of("message", "cupom já está adicionado");
+                    return ResponseEntity.badRequest().body(data);
+                }
+            }
+
             if (cupomsExistentes == null || cupomsExistentes.isEmpty()) {
                 cupomsExistentes = new ArrayList<>();
             }
 
-            var cupom = userCupom.cupom();
             cupom.setUsed(false);
 
             cupomsExistentes.add(cupom);
