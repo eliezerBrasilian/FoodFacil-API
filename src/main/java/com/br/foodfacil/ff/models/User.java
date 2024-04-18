@@ -1,6 +1,7 @@
 package com.br.foodfacil.ff.models;
 
 import com.br.foodfacil.ff.dtos.Address;
+import com.br.foodfacil.ff.dtos.RegisterDto;
 import com.br.foodfacil.ff.dtos.SimpleCupomDto;
 import com.br.foodfacil.ff.enums.UserRole;
 import lombok.*;
@@ -37,19 +38,15 @@ public class User implements UserDetails {
     private Double moneySpentTotal;
     private int amountOfItemsBoughtTotal;
     private int amountOfCouponsUsed;
+    private int amountOfCouponsCollected;
     private List<SimpleCupomDto> cupoms;
 
-    public User(String email, String password, UserRole userRole, String name, String profilePicture) {
-        this.email = email;
-        this.password = password;
-        this.userRole = userRole;
-        this.name = name;
-        this.profilePicture = profilePicture;
-        this.address = null;
-        this.amountOfCouponsUsed = 0;
-        this.amountOfItemsBoughtTotal = 0;
-        this.moneySpentTotal = 0d;
-        this.cupoms = Collections.emptyList();
+    public User(RegisterDto registerDto) {
+        this.email = registerDto.email();
+        this.password = registerDto.password();
+        this.userRole = registerDto.role();
+        this.name = registerDto.name();
+        this.profilePicture = registerDto.profilePicture();
     }
 
     @Override

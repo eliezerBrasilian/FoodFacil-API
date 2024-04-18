@@ -1,7 +1,6 @@
 package com.br.foodfacil.ff.services;
 import com.br.foodfacil.ff.dtos.AuthDTO;
 import com.br.foodfacil.ff.dtos.RegisterDto;
-import com.br.foodfacil.ff.dtos.RegisterGoogleDto;
 import com.br.foodfacil.ff.models.User;
 import com.br.foodfacil.ff.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.Date;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -69,7 +69,6 @@ public class AuthService implements UserDetailsService {
             System.out.println("tentativa de login fracassou");
             return ResponseEntity.badRequest().body("tentativa de login fracassou");
         }
-
     }
 
     public ResponseEntity<Object> register(@RequestBody RegisterDto registerDto) {
@@ -77,26 +76,37 @@ public class AuthService implements UserDetailsService {
         System.out.println(registerDto);
 
         if (this.userRepository.findByEmail(registerDto.email()).isPresent()){
-            return ResponseEntity.badRequest().body("este email já está em uso");
+            return ResponseEntity.badRequest().body(Map.of("message", "este email já está em uso"));
         }
+
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
 
-        var newUser = new User(registerDto.email(),
-                encryptedPassword, registerDto.role(),
-                registerDto.name(),null
-                );
-        newUser.setCreatedAt(new Date(System.currentTimeMillis()));
-        this.userRepository.save(newUser);
+        try{
+            var newUser = new User(registerDto);
+            newUser.setCreatedAt(new Date(System.currentTimeMillis()));
+            newUser.setCupoms(Collections.emptyList());
+            newUser.setAmountOfCouponsCollected(0);
+            newUser.setMoneySpentTotal((double) 0);
+            newUser.setAmountOfCouponsUsed(0);
+            newUser.setAmountOfItemsBoughtTotal(0);
+            newUser.setPassword(encryptedPassword);
 
-        var token = tokenService.generateToken(newUser);
+            var savedUser = this.userRepository.save(newUser);
 
-        // Return token along with success response
-        return ResponseEntity.ok(Map.of("message", "User registered successfully", "token", token));
+            var token = tokenService.generateToken(newUser);
+
+            // Return token along with success response
+            return ResponseEntity.ok(Map.of("message", "User registered successfully",
+                    "token", token,"userId", savedUser.getId()));
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(
+                    Map.of("message", e.getMessage(), "cause", e.getCause())
+            );
+        }
+
     }
 
-    //logando depois de clicar em sigin com google
-
-    public ResponseEntity<Object> loginWithGoogle(RegisterGoogleDto registerDto){
+    public ResponseEntity<Object> loginWithGoogle(RegisterDto registerDto){
         System.out.println("em register");
         System.out.println(registerDto);
         authenticationManager = context.getBean(AuthenticationManager.class);
@@ -137,11 +147,9 @@ public class AuthService implements UserDetailsService {
         }
 
         else{
-            String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
+            //String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
 
-            var newUser = new User(registerDto.email(),
-                    encryptedPassword, registerDto.role(), registerDto.name(),
-                    registerDto.profilePicture());
+            var newUser = new User(registerDto);
             newUser.setCreatedAt(new Date(System.currentTimeMillis()));
             try{
                 var userSalvo = this.userRepository.save(newUser);
