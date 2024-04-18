@@ -1,6 +1,7 @@
 package com.br.foodfacil.ff.models;
 
 import com.br.foodfacil.ff.dtos.Address;
+import com.br.foodfacil.ff.dtos.SimpleCupomDto;
 import com.br.foodfacil.ff.enums.UserRole;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -36,7 +37,7 @@ public class User implements UserDetails {
     private Double moneySpentTotal;
     private int amountOfItemsBoughtTotal;
     private int amountOfCouponsUsed;
-    private List<Cupom> cupoms;
+    private List<SimpleCupomDto> cupoms;
 
     public User(String email, String password, UserRole userRole, String name, String profilePicture) {
         this.email = email;

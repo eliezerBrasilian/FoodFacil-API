@@ -1,11 +1,10 @@
 package com.br.foodfacil.ff.controllers;
 
-import com.br.foodfacil.ff.dtos.AddressDto;
-import com.br.foodfacil.ff.dtos.CupomToUpdateDto;
-import com.br.foodfacil.ff.dtos.ProfilePhotoDto;
-import com.br.foodfacil.ff.dtos.UserCupom;
+import com.br.foodfacil.ff.dtos.*;
 import com.br.foodfacil.ff.services.UserService;
 import com.br.foodfacil.ff.utils.AppUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/user")
 public class UserController {
-
     @Autowired
     UserService userService;
 
@@ -22,18 +20,25 @@ public class UserController {
         return userService.updatePhoto(profilePhotoDto);
     }
 
-    @PostMapping("update-address")
-    ResponseEntity<Object> updateAddress(@RequestBody AddressDto addressDto){
-        return userService.updateAddress(addressDto);
+    @PostMapping("address/update/{userId}")
+    ResponseEntity<Object> updateAddress(@RequestBody Address address,
+                                         @PathVariable String userId){
+        System.out.println("address");
+        System.out.println(address);
+        System.out.println(userId);
+        return userService.updateAddress(address, userId);
     }
 
-    @PostMapping("add-cupom")
-    ResponseEntity<Object> addCupom(@RequestBody UserCupom userCupom){
+    @PostMapping("cupom/add")
+    ResponseEntity<Object> addCupom(@RequestBody UserCupomDto userCupom) {
+        System.out.println("cupom recebido");
+
         return userService.addCupom(userCupom);
     }
 
     @PostMapping("cupom/use")
     ResponseEntity<Object> useCupom(@RequestBody CupomToUpdateDto cupomToUpdateDto){
+
         return userService.usarCupom(cupomToUpdateDto);
     }
 

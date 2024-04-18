@@ -1,10 +1,6 @@
 package com.br.foodfacil.ff.services;
 
-import com.br.foodfacil.ff.dtos.AddressDto;
-import com.br.foodfacil.ff.dtos.CupomToUpdateDto;
-import com.br.foodfacil.ff.dtos.ProfilePhotoDto;
-import com.br.foodfacil.ff.dtos.UserCupom;
-import com.br.foodfacil.ff.models.Cupom;
+import com.br.foodfacil.ff.dtos.*;
 import com.br.foodfacil.ff.repositories.CupomRepository;
 import com.br.foodfacil.ff.repositories.UserRepository;
 import com.br.foodfacil.ff.utils.AppUtils;
@@ -48,35 +44,34 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> updateAddress(AddressDto addressDto) {
-        var optionalUser = userRepository.findById(addressDto.userUid());
+    public ResponseEntity<Object> updateAddress(Address address, String userId) {
+        var optionalUser = userRepository.findById(userId);
 
         try {
-            if (optionalUser.isPresent()) {
+            if(optionalUser.isEmpty()){
+                var data = Map.of("message", "usuario não existe");
+                return ResponseEntity.ok().body(data);
+            }
+           else {
                 System.out.println("usuario existe");
                 var user = optionalUser.get();
-                user.setAddress(addressDto.address());
+                user.setAddress(address);
 
                 userRepository.save(user);
                 var data = Map.of("message", "endereço atualizado");
-                return ResponseEntity.ok().body(data);
-            } else {
-                var data = Map.of("message", "usuario não existe");
                 return ResponseEntity.ok().body(data);
             }
         } catch (Exception e) {
             var data = Map.of("message", e.getMessage(),
                     "causa", e.getCause());
+            System.out.println(data);
             return ResponseEntity.badRequest().body(data);
         }
     }
 
-    public ResponseEntity<Object> addCupom(UserCupom userCupom) {
-        var optionalUser = userRepository.findById(userCupom.userUid());
-        var optionalCupom = cupomRepository.findById(userCupom.cupom().getId());
-
-        var cupom = userCupom.cupom();
-        var cupomExpirado = AppUtils.verificaExpiracao(cupom.getExpirationDate());
+    public ResponseEntity<Object> addCupom(UserCupomDto userCupom) {
+        var optionalUser = userRepository.findById(userCupom.userId());
+        var optionalCupom = cupomRepository.findById(userCupom.cupom().id());
 
         try {
             if (optionalUser.isPresent() && optionalCupom.isEmpty()) {
@@ -87,7 +82,11 @@ public class UserService {
                 var data = Map.of("message", "usuario não existe");
                 return ResponseEntity.badRequest().body(data);
             }
-            else if(cupomExpirado){
+
+            var cupomExpirado = AppUtils.verificaExpiracao(optionalCupom.get().getExpirationDate());
+            var cupomRecebido = userCupom.cupom();
+
+             if(cupomExpirado){
                 var data = Map.of("message", "cupom está expirado");
                 return ResponseEntity.badRequest().body(data);
             }
@@ -95,33 +94,42 @@ public class UserService {
             var user = optionalUser.get();
             var cupomsExistentes = user.getCupoms();
 
-            for (Cupom cupom_: cupomsExistentes){
-                if(Objects.equals(cupom_.getId(), cupom.getId())){
-                    var data = Map.of("message", "cupom já está adicionado");
-                    return ResponseEntity.badRequest().body(data);
+            if (cupomsExistentes == null) {
+                cupomsExistentes = new ArrayList<>();
+            }
+            else{
+                for (SimpleCupomDto cupom_: cupomsExistentes){
+                    if(Objects.equals(cupom_.id(), cupomRecebido.id())){
+                        var data = Map.of("message", "cupom já está adicionado");
+                        System.out.println(data);
+                        return ResponseEntity.badRequest().body(data);
+                    }
                 }
             }
 
-            if (cupomsExistentes == null || cupomsExistentes.isEmpty()) {
-                cupomsExistentes = new ArrayList<>();
-            }
+            var newCupom = new SimpleCupomDto(cupomRecebido.id(),
+                    cupomRecebido.resgatado(),cupomRecebido.used());
 
-            cupom.setUsed(false);
-
-            cupomsExistentes.add(cupom);
+            cupomsExistentes.add(newCupom);
             user.setCupoms(cupomsExistentes);
             userRepository.save(user);
 
             var data = Map.of("message", "cupom adicionado a conta",
-                    "idcupom", userCupom.cupom().getId(),
-                    "userUid", userCupom.userUid());
+                    "idcupom", cupomRecebido.id(),
+                    "userUid", userCupom.userId());
+
+            System.out.println("cupom adicionado");
 
             return ResponseEntity.ok().body(data);
 
         } catch (Exception e) {
-            var data = Map.of("message", e.getMessage(),
-                    "causa", e.getCause());
-            return ResponseEntity.badRequest().body(data);
+           /* var data = Map.of("message", e.getMessage(),
+                    "causa", e.getCause());*/
+            System.out.println("mesnsagem de erro");
+            System.out.println(e.getMessage());
+            System.out.println("causa");
+            //System.out.println(e.getCause());
+            return ResponseEntity.badRequest().body("data");
         }
     }
 
@@ -141,13 +149,18 @@ public class UserService {
 
             var user = optionalUser.get();
             var cupomsList = user.getCupoms();
+            SimpleCupomDto newCupom;
+            SimpleCupomDto cupomFounded = null;
 
-            for (Cupom item : cupomsList) {
-                if (Objects.equals(item.getId(), cupomToUpdateDto.cupomId())) {
+            for (SimpleCupomDto item : cupomsList) {
+                if (Objects.equals(item.id(), cupomToUpdateDto.cupomId())) {
                     System.out.println("encontrou");
-                    item.setUsed(true);
+                    cupomFounded = item;
                 }
             }
+            var index = cupomsList.indexOf(cupomFounded);
+            cupomsList.set(index,
+                    new SimpleCupomDto(cupomFounded.id(), cupomFounded.resgatado(), true));
 
             user.setCupoms(cupomsList);
             userRepository.save(user);

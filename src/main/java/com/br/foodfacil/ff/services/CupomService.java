@@ -1,7 +1,6 @@
 package com.br.foodfacil.ff.services;
 
 import com.br.foodfacil.ff.dtos.CupomDto;
-import com.br.foodfacil.ff.dtos.UserCupom;
 import com.br.foodfacil.ff.models.Cupom;
 import com.br.foodfacil.ff.repositories.CupomRepository;
 import org.springframework.beans.factory.annotation.Autowired;

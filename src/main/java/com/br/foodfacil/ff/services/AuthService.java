@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -110,8 +111,10 @@ public class AuthService implements UserDetailsService {
 
             var data = new HashMap<>(Map.of("message", "usuario logado com sucesso",
                     "userUid", userFounded.getId(),
-                    "name", userFounded.getName()
+                    "name", userFounded.getName(),
+                    "address",userFounded.getAddress()
             ));
+
             if(userFounded.getProfilePicture() != null)data.put("profilePicture", userFounded.getProfilePicture());
 
             try {
@@ -125,7 +128,7 @@ public class AuthService implements UserDetailsService {
                 return ResponseEntity.ok(data);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                if (e.getMessage() == "Bad credentials") {
+                if (Objects.equals(e.getMessage(), "Bad credentials")) {
                     System.out.println("senha incorreta");
                     return ResponseEntity.badRequest().body("senha incorreta");
                 }

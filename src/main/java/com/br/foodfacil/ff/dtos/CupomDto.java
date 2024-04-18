@@ -4,10 +4,11 @@ import java.util.Date;
 
 public record CupomDto(
         String code,
-        float porcentoDeDesconto,
+        int porcentoDeDesconto,
         Date createdAt,
         Date expirationDate,
         boolean expired,
-        boolean used
+        String description,
+        CupomCategory cupomCategory
         ) {
 }
