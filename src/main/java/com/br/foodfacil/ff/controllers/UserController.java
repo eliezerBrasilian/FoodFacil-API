@@ -46,4 +46,6 @@ public class UserController {
     ResponseEntity<Object> getCupoms(@PathVariable String userId){
         return userService.getCupoms(userId);
     }
+
+    //pedidos do usuario -> user/pedidos/{userId}
 }

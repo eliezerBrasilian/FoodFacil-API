@@ -1,6 +1,6 @@
 package com.br.foodfacil.ff.models;
 
-import com.br.foodfacil.ff.dtos.Acompanhamento;
+import com.br.foodfacil.ff.dtos.IngredienteDto;
 import com.br.foodfacil.ff.dtos.SalgadoDto;
 import com.br.foodfacil.ff.enums.Categoria;
 import com.br.foodfacil.ff.enums.Disponibilidade;
@@ -23,11 +23,14 @@ public class Salgado {
     private String name;
     private String description;
     private String image;
+    private String imageRetangular;
+    private String imageQuadrada;
     private float price;
     private boolean inOffer;
     private float priceInOffer;
     private Disponibilidade disponibilidade;
-    private List<Acompanhamento> acompanhamentos;
+    private List<IngredienteDto> ingredienteDtos;
+    private String observacao;
 
     public Salgado(SalgadoDto salgadoDto){
         this.categoria = salgadoDto.categoria();
@@ -35,9 +38,12 @@ public class Salgado {
         this.name = salgadoDto.name();
         this.description = salgadoDto.description();
         this.image = salgadoDto.image();
+        this.imageRetangular = salgadoDto.imageRetangular();
+        this.imageQuadrada = salgadoDto.imageQuadrada();
         this.inOffer = salgadoDto.inOffer();
         this.priceInOffer = salgadoDto.priceInOffer();
         this.disponibilidade = salgadoDto.disponibilidade();
-        this.acompanhamentos = salgadoDto.acompanhamentos();
+        this.ingredienteDtos = salgadoDto.ingredienteDtos();
+        this.observacao = salgadoDto.observacao();
     }
 }

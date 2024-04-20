@@ -1,6 +1,6 @@
 package com.br.foodfacil.ff.controllers;
 
-import com.br.foodfacil.ff.dtos.AuthDTO;
+import com.br.foodfacil.ff.dtos.LoginAuthDTO;
 import com.br.foodfacil.ff.dtos.RegisterDto;
 import com.br.foodfacil.ff.services.AuthService;
 import com.br.foodfacil.ff.utils.AppUtils;
@@ -20,7 +20,7 @@ public class AuthController {
     AuthService authorizationService;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid AuthDTO authetinticationDto) {
+    public ResponseEntity<Object> login(@RequestBody LoginAuthDTO authetinticationDto) {
         return authorizationService.login(authetinticationDto);
     }
 

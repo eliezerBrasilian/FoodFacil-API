@@ -16,6 +16,6 @@ public record SalgadoResponseDto(
         @NotNull boolean inOffer,
         @NotNull float priceInOffer,
         @NotNull Disponibilidade disponibilidade,
-        @NotNull List<Acompanhamento> acompanhamentos
+        @NotNull List<IngredienteDto> ingredienteDtos
 ) {
 }

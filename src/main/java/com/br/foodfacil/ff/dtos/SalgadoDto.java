@@ -12,9 +12,12 @@ public record SalgadoDto(
         @NotNull String description,
         @NotNull float price,
         @NotNull String image,
+        @NotNull String imageRetangular,
+        @NotNull String imageQuadrada,
         @NotNull boolean inOffer,
         @NotNull float priceInOffer,
         @NotNull Disponibilidade disponibilidade,
-        @NotNull List<Acompanhamento> acompanhamentos
+        List<IngredienteDto> ingredienteDtos,
+        String observacao
 ) {
 }

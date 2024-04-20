@@ -1,13 +1,13 @@
 package com.br.foodfacil.ff.services;
-import com.br.foodfacil.ff.dtos.AuthDTO;
+import com.br.foodfacil.ff.dtos.LoginAuthDTO;
 import com.br.foodfacil.ff.dtos.RegisterDto;
 import com.br.foodfacil.ff.models.User;
 import com.br.foodfacil.ff.repositories.UserRepository;
-import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,20 +54,43 @@ public class AuthService implements UserDetailsService {
         }
     }
 
-    public ResponseEntity<Object> login(@RequestBody @Valid AuthDTO data) {
+    public ResponseEntity<Object> login(LoginAuthDTO data) {
         authenticationManager = context.getBean(AuthenticationManager.class);
+        var userOptioal = this.userRepository.findByEmail(data.email());
+
+        if (userOptioal.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).
+                    body((Map.of("message", "email não encontrado")));
+        }
 
         try{
             System.out.println("em login");
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
-            var token = tokenService.generateToken((User) auth.getPrincipal());
-            return ResponseEntity.ok(token);
+            var user = userOptioal.get();
+            System.out.println(Map.of("user",user.getName()));
+
+            var token = tokenService.generateToken(user);
+            //var token = tokenService.generateToken((User) auth.getPrincipal());
+
+            return ResponseEntity.ok().body(
+                    new HashMap<>()
+                    {{
+                        put("message", "logado com sucesso");
+                        put("token", token);
+                        put("userId", user.getId());
+                        put("profilePicture", user.getProfilePicture() == null? "" : user.getProfilePicture());
+                        put("name", user.getName());
+                    }}
+            );
         }catch (RuntimeException e){
-            e.printStackTrace();
             System.out.println("tentativa de login fracassou");
-            return ResponseEntity.badRequest().body("tentativa de login fracassou");
+            System.out.println(Map.of(
+                    "message",e.getMessage()));
+
+            return ResponseEntity.badRequest().body(Map.of(
+                    "message",e.getMessage()));
         }
     }
 
