@@ -8,6 +8,6 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.Optional;
 
 
-public interface AdicionalRepository extends MongoRepository<Adicional, Long> {
+public interface AdicionalRepository extends MongoRepository<Adicional, String> {
     //Optional<User> findByEmail(String email);
 }

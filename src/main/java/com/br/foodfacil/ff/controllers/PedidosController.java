@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PedidosController {
 
     @PostMapping
-    ResponseEntity<Object> criaPedido(@RequestBody PedidoDto pedidoDto){
+    ResponseEntity<Object> getPedidos(@RequestBody PedidoDto pedidoDto){
 
         System.out.println(pedidoDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(pedidoDto);

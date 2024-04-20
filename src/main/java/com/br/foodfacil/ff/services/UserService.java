@@ -1,10 +1,13 @@
 package com.br.foodfacil.ff.services;
 
 import com.br.foodfacil.ff.dtos.*;
+import com.br.foodfacil.ff.models.Pedido;
 import com.br.foodfacil.ff.repositories.CupomRepository;
+import com.br.foodfacil.ff.repositories.PedidoRepository;
 import com.br.foodfacil.ff.repositories.UserRepository;
 import com.br.foodfacil.ff.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,8 @@ public class UserService {
     @Autowired
     CupomRepository cupomRepository;
     @Autowired
-    CupomService cupomService;
+    PedidoRepository pedidoRepository;
+
 
     public ResponseEntity<Object> updatePhoto(ProfilePhotoDto profilePhotoDto) {
         var optionalUser = userRepository.findById(profilePhotoDto.userUid());
@@ -193,5 +197,30 @@ public class UserService {
             return ResponseEntity.badRequest().body(data);
         }
 
+    }
+
+    public ResponseEntity<Object> registraPedido(PedidoDto pedidoDto){
+        try{
+            var ingrediente = pedidoRepository.save(new Pedido(pedidoDto));
+
+            var data = Map.of("message","pedido registrado",
+                    "id",ingrediente.getId());
+
+            return ResponseEntity.ok().body(data);
+        }catch (Exception e){
+            var data = Map.of("message",e.getMessage(),"cause",e.getCause());
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(data);
+        }
+    }
+
+    public ResponseEntity<Object> getPedidos(String userId){
+        var optionalUser = userRepository.findById(userId);
+
+        if(optionalUser.isEmpty() ){
+            return ResponseEntity.badRequest().body(Map.of("message","usuário não existe"));
+        }
+
+        return ResponseEntity.ok().body(Map.of("message","sucesso",
+                "lista",pedidoRepository.findByCompradorId(userId)));
     }
 }
