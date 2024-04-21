@@ -58,32 +58,12 @@ public class PagamentoController {
     }
 
     @PostMapping("notificacao")
-    ResponseEntity<Object> noticacao(@RequestBody String pagamentoId) throws MPException, MPApiException {
+    ResponseEntity<Object> noticacao(@RequestBody String pagamentoId)  {
 
         System.out.println("recebido");
         System.out.println(pagamentoId);
-        MercadoPagoConfig.setAccessToken("TEST-6242384253176670-042012-f47b1f59150e364b0788afa9cfdd23a5-618365626");
-
-        var client = new PaymentClient();
-        client.get(Long.valueOf(pagamentoId));
 
 
-
-
-        String imagePath = "https://firebasestorage.googleapis.com/v0/b/foodfacil-d0c86.appspot.com/o/app_resources%2Flogo.png?alt=media&token=9ed10677-f17b-4d0c-9159-9e770ad65875";
-
-   /*     notificationService.sendNotificationByToken(
-                new NotificationDTO(,
-                        "Pagamento aprovado", "Parabéns," + paymentReceiverDto.userName() + " identificamos que " +
-                        "seu pagamento ocorreu com " +
-                        "sucesso, " +
-                        "seu pedido seguirá em preparo",
-                        imagePath,
-                        new HashMap<>(){{put("payment_status","approved");}}
-                )
-        );*/
-       // return "Pagamento aprovado";
-
-        return ResponseEntity.ok().body(pagamentoId);
+        return ResponseEntity.ok().body("ok");
     }
 }
