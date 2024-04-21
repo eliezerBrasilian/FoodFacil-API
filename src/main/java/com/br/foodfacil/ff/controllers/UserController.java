@@ -1,6 +1,7 @@
 package com.br.foodfacil.ff.controllers;
 
 import com.br.foodfacil.ff.dtos.*;
+import com.br.foodfacil.ff.services.PagamentoService;
 import com.br.foodfacil.ff.services.UserService;
 import com.br.foodfacil.ff.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +56,5 @@ public class UserController {
     ResponseEntity<Object> getPedidos(@PathVariable String userId){
         return userService.getPedidos(userId);
     }
+
 }

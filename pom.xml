@@ -8,15 +8,23 @@
         <version>3.2.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.br.movie</groupId>
+    <groupId>com.br.foodfacil</groupId>
     <artifactId>foodfacilbackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>movie</name>
+    <name>foodfacilbackend</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>17</java.version>
+        <ngrok.version>0.5.0</ngrok.version>
     </properties>
     <dependencies>
+        <!--mercado pago-->
+        <dependency>
+            <groupId>com.mercadopago</groupId>
+            <artifactId>sdk-java</artifactId>
+            <version>2.1.22</version>
+        </dependency>
+
         <!--autenticacao-->
         <dependency>
             <groupId>com.auth0</groupId>
@@ -77,6 +85,15 @@
     </dependencies>
 
     <build>
+        <!-- add your preferred build plugins: maven-jar-plugin, exec-maven-plugin, etc -->
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.0</version>
+            </extension>
+        </extensions>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
