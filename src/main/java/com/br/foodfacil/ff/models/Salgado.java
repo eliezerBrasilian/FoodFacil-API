@@ -19,31 +19,33 @@ import java.util.List;
 public class Salgado {
     @Id
     private String id;
+    private String nome;
     private Categoria categoria;
-    private String name;
-    private String description;
-    private String image;
-    private String imageRetangular;
-    private String imageQuadrada;
-    private float price;
-    private boolean inOffer;
-    private float priceInOffer;
+    private String descricao;
+    private float preco;
+    private String imagem;
+    private String imagemRetangular;
+    private String imagemQuadrada;
+    private boolean emOferta;
+    private float precoEmOferta;
     private Disponibilidade disponibilidade;
-    private List<IngredienteDto> ingredienteDtos;
+    private long createdAt;
     private String observacao;
+    private List<IngredienteDto> ingredientes;
 
     public Salgado(SalgadoDto salgadoDto){
+        this.nome = salgadoDto.nome();
         this.categoria = salgadoDto.categoria();
-        this.price = salgadoDto.price();
-        this.name = salgadoDto.name();
-        this.description = salgadoDto.description();
-        this.image = salgadoDto.image();
-        this.imageRetangular = salgadoDto.imageRetangular();
-        this.imageQuadrada = salgadoDto.imageQuadrada();
-        this.inOffer = salgadoDto.inOffer();
-        this.priceInOffer = salgadoDto.priceInOffer();
+        this.descricao = salgadoDto.descricao();
+        this.preco = salgadoDto.preco();
+        this.imagem = salgadoDto.imagem();
+        this.imagemRetangular = salgadoDto.imagemRetangular();
+        this.imagemQuadrada = salgadoDto.imagemQuadrada();
+        this.emOferta = salgadoDto.emOferta();
+        this.precoEmOferta = salgadoDto.precoEmOferta();
         this.disponibilidade = salgadoDto.disponibilidade();
-        this.ingredienteDtos = salgadoDto.ingredienteDtos();
+        this.createdAt = salgadoDto.createdAt();
         this.observacao = salgadoDto.observacao();
+        this.ingredientes = salgadoDto.ingredientes();
     }
 }

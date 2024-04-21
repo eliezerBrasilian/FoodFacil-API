@@ -126,7 +126,6 @@ public class AuthService implements UserDetailsService {
                     Map.of("message", e.getMessage(), "cause", e.getCause())
             );
         }
-
     }
 
     public ResponseEntity<Object> loginWithGoogle(RegisterDto registerDto){

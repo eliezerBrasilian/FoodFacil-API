@@ -38,7 +38,7 @@ public class SalgadoService {
     }
 
     public ResponseEntity<Object> salgadosInOfferList(){
-        var list = salgadoRepository.findByInOffer(true);
+        var list = salgadoRepository.findByEmOferta(true);
 
         var data = Map.of("message","salgados em oferta",
                 "lista",list);

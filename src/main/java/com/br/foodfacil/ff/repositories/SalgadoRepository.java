@@ -8,6 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface SalgadoRepository extends MongoRepository<Salgado, String> {
-    List<SalgadoResponseDto> findByInOffer(boolean inOffer);
+    List<SalgadoResponseDto> findByEmOferta(boolean inOffer);
     List<SalgadoResponseDto> findByCategoria(Categoria categoria);
 }
