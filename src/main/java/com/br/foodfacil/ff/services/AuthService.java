@@ -130,34 +130,26 @@ public class AuthService implements UserDetailsService {
     }
 
     public ResponseEntity<Object> loginWithGoogle(RegisterDto registerDto){
-        System.out.println("em register");
-        System.out.println(registerDto);
         authenticationManager = context.getBean(AuthenticationManager.class);
 
         var userFoundedOptional = (this.userRepository.findByEmail(registerDto.email()));
 
         if(userFoundedOptional.isPresent()){
-            var userFounded = userFoundedOptional.get();
-
-            System.out.println("userFounded");
-            System.out.println(userFounded.getName());
-
-            var data = new HashMap<>(Map.of("message", "usuario logado com sucesso",
-                    "userUid", userFounded.getId(),
-                    "name", userFounded.getName(),
-                    "address",userFounded.getAddress()
-            ));
-
-            if(userFounded.getProfilePicture() != null)data.put("profilePicture", userFounded.getProfilePicture());
-
             try {
                 System.out.println("em loginWithGoogle");
-                var usernamePassword = new UsernamePasswordAuthenticationToken(registerDto.email(), registerDto.password());
 
                 var user = userFoundedOptional.get();
 
                 var token = tokenService.generateToken(user);
-                data.put("token", token);
+                System.out.println("userFounded: " + user.getName());
+
+                var data = Map.of("message", "usuario logado com sucesso",
+                        "token", token,
+                        "userId", user.getId(),
+                        "profilePicture", user.getProfilePicture() == null? "" : user.getProfilePicture(),
+                        "name", user.getName()
+                );
+
                 return ResponseEntity.ok(data);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
