@@ -58,11 +58,10 @@ public class PagamentoController {
     }
 
     @PostMapping("notificacao")
-    ResponseEntity<Object> noticacao(@RequestBody String pagamentoId)  {
+    ResponseEntity<Object> noticacao(@RequestBody Map<String, Object> payload)  {
 
         System.out.println("recebido");
-        System.out.println(pagamentoId);
-
+        System.out.println(payload);
 
         return ResponseEntity.ok().body("ok");
     }
