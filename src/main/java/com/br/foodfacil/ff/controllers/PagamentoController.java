@@ -6,13 +6,6 @@ import com.br.foodfacil.ff.dtos.PaymentReceiverDto;
 import com.br.foodfacil.ff.services.NotificationService;
 import com.br.foodfacil.ff.services.PagamentoService;
 import com.br.foodfacil.ff.utils.AppUtils;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mercadopago.MercadoPagoConfig;
-import com.mercadopago.client.payment.PaymentClient;
-import com.mercadopago.exceptions.MPApiException;
-import com.mercadopago.exceptions.MPException;
-import com.mercadopago.resources.payment.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,10 +51,10 @@ public class PagamentoController {
     }
 
     @PostMapping("notificacao")
-    ResponseEntity<Object> noticacao(@RequestParam("id") String id)  {
+    ResponseEntity<Object> notificacao(@RequestBody Map<String,Object> data)  {
 
         System.out.println("recebido");
-        System.out.println(id);
+        System.out.println(data);
 
         return ResponseEntity.ok().body("ok");
     }
