@@ -7,11 +7,9 @@ import com.br.foodfacil.ff.utils.AppUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/auth")
 public class AuthController {
@@ -20,7 +18,8 @@ public class AuthController {
     AuthService authorizationService;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginAuthDTO authetinticationDto) {
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginAuthDTO authetinticationDto) {
+        System.out.println(authetinticationDto);
         return authorizationService.login(authetinticationDto);
     }
 
