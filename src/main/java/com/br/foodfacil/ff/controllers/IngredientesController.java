@@ -1,6 +1,6 @@
 package com.br.foodfacil.ff.controllers;
 
-import com.br.foodfacil.ff.dtos.IngredienteDto;
+import com.br.foodfacil.ff.dtos.SaborDto;
 import com.br.foodfacil.ff.services.IngredienteService;
 import com.br.foodfacil.ff.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,10 @@ public class IngredientesController {
     IngredienteService ingredienteService;
 
     @PostMapping
-    ResponseEntity<Object> cadastraIngrediente(@RequestBody IngredienteDto ingredienteDto){
+    ResponseEntity<Object> cadastraIngrediente(@RequestBody SaborDto saborDto){
 
-        System.out.println(ingredienteDto);
-        return ingredienteService.registraIngrediente(ingredienteDto);
+        System.out.println(saborDto);
+        return ingredienteService.registraIngrediente(saborDto);
     }
 
     @GetMapping

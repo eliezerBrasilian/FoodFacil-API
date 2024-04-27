@@ -1,7 +1,7 @@
 package com.br.foodfacil.ff.controllers;
 
-import com.br.foodfacil.ff.dtos.SalgadoDto;
-import com.br.foodfacil.ff.enums.Categoria;
+import com.br.foodfacil.ff.dtos.SalgadoRequestDto;
+import com.br.foodfacil.ff.dtos.SalgadoRequestEditDto;
 import com.br.foodfacil.ff.services.SalgadoService;
 import com.br.foodfacil.ff.utils.AppUtils;
 
@@ -19,9 +19,24 @@ public class SalgadoController {
 
     @PostMapping
     ResponseEntity<Object> registerSalgado(
-            @RequestBody SalgadoDto salgadoDto){
+            @RequestBody SalgadoRequestDto salgadoRequestDto){
 
-        return salgadoService.register(salgadoDto);
+        return salgadoService.registrar(salgadoRequestDto);
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<Object> editaSalgado(
+            @PathVariable String id,
+            @RequestBody SalgadoRequestEditDto salgadoRequestEditDto){
+
+        return salgadoService.editaSalgado(salgadoRequestEditDto, id);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Object> excluiSalgado(
+            @PathVariable String id){
+
+        return salgadoService.excluiSalgado(id);
     }
 
     @GetMapping()
@@ -29,13 +44,4 @@ public class SalgadoController {
         return salgadoService.salgadosList();
     }
 
-    @GetMapping("/in-offer")
-    ResponseEntity<Object> getAllInOffer(){
-        return salgadoService.salgadosInOfferList();
-    }
-
-    @GetMapping("/category/{category}")
-    ResponseEntity<Object> getAllInOffer(@PathVariable Categoria category){
-        return salgadoService.salgadosByCategoryList(category);
-    }
 }

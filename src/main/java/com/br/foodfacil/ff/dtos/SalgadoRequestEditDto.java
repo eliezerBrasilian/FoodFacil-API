@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record SalgadoDto(
+public record SalgadoRequestEditDto(
         @NotNull String nome,
         @NotNull Categoria categoria,
         @NotNull String descricao,
@@ -17,8 +17,6 @@ public record SalgadoDto(
         @NotNull boolean emOferta,
         @NotNull float precoEmOferta,
         @NotNull Disponibilidade disponibilidade,
-        @NotNull long createdAt,
-        List<SaborDto> ingredientes,
-        String observacao
+        List<String> sabores
 ) {
 }

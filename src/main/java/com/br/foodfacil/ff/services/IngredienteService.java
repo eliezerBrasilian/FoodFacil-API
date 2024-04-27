@@ -1,6 +1,6 @@
 package com.br.foodfacil.ff.services;
 
-import com.br.foodfacil.ff.dtos.IngredienteDto;
+import com.br.foodfacil.ff.dtos.SaborDto;
 import com.br.foodfacil.ff.models.Ingrediente;
 import com.br.foodfacil.ff.repositories.IngredienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,9 @@ public class IngredienteService {
     @Autowired
     IngredienteRepository ingredienteRepository;
 
-    public ResponseEntity<Object> registraIngrediente(IngredienteDto ingredienteDto){
+    public ResponseEntity<Object> registraIngrediente(SaborDto saborDto){
         try{
-            var ingrediente = ingredienteRepository.save(new Ingrediente(ingredienteDto));
+            var ingrediente = ingredienteRepository.save(new Ingrediente(saborDto));
 
             var data = Map.of("message","ingrediente registrado",
                     "id",ingrediente.getId());

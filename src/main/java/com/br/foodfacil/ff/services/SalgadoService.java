@@ -1,16 +1,16 @@
 package com.br.foodfacil.ff.services;
 
-import com.br.foodfacil.ff.dtos.SalgadoDto;
-import com.br.foodfacil.ff.dtos.SalgadoResponseDto;
+import com.br.foodfacil.ff.dtos.SalgadoRequestDto;
+import com.br.foodfacil.ff.dtos.SalgadoRequestEditDto;
 import com.br.foodfacil.ff.enums.Categoria;
 import com.br.foodfacil.ff.models.Salgado;
 import com.br.foodfacil.ff.repositories.SalgadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,40 +18,84 @@ public class SalgadoService {
     @Autowired
     SalgadoRepository salgadoRepository;
 
-    public ResponseEntity<Object> register(SalgadoDto salgadoDto){
+    public ResponseEntity<Object> registrar(SalgadoRequestDto salgadoDto){
 
-        var salgado = salgadoRepository.save(new Salgado(salgadoDto));
+        try {
+            var salgado = salgadoRepository.save(new Salgado(salgadoDto));
 
-        var data = Map.of("message","salgado salvo com sucesso",
-                "id",salgado.getId());
+            var data = Map.of("message", "salgado salvo com sucesso",
+                    "id", salgado.getId());
 
-        return ResponseEntity.ok().body(data);
+            return ResponseEntity.ok().body(data);
+        }catch (RuntimeException e){
+            throw new RuntimeException("falha ao salvar devido a uma excessao: "+e.getMessage());
+        }
+    }
+
+    public ResponseEntity<Object> excluiSalgado(String id){
+        var optionalSalgado = salgadoRepository.findById(id);
+
+        if(optionalSalgado.isEmpty()){
+            var data = Map.of("message","salgado nao existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+        }
+
+        try{
+            salgadoRepository.deleteById(id);
+            var data = Map.of("message","salgado excluido com sucesso");
+
+            return ResponseEntity.ok().body(data);
+        }catch (RuntimeException e){
+            throw new RuntimeException("falha ao deletar devido a uma excessao: "+e.getMessage());
+        }
+    }
+
+    public ResponseEntity<Object> editaSalgado(SalgadoRequestEditDto salgadoRequestEditDto, String id){
+
+        var optionalSalgado = salgadoRepository.findById(id);
+
+        if(optionalSalgado.isEmpty()){
+            var data = Map.of("message","salgado nao existe");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+        }
+
+        try {
+            var salgadoEncontrado = optionalSalgado.get();
+            salgadoEncontrado.setNome(salgadoRequestEditDto.nome());
+            salgadoEncontrado.setCategoria(salgadoRequestEditDto.categoria());
+            salgadoEncontrado.setDescricao(salgadoRequestEditDto.descricao());
+            salgadoEncontrado.setImagem(salgadoRequestEditDto.imagem());
+            salgadoEncontrado.setImagemQuadrada(salgadoRequestEditDto.imagemQuadrada());
+            salgadoEncontrado.setImagemRetangular(salgadoRequestEditDto.imagemRetangular());
+            salgadoEncontrado.setEmOferta(salgadoRequestEditDto.emOferta());
+            salgadoEncontrado.setPreco(salgadoRequestEditDto.preco());
+            salgadoEncontrado.setPrecoEmOferta(salgadoRequestEditDto.precoEmOferta());
+            salgadoEncontrado.setSabores(salgadoRequestEditDto.sabores());
+            salgadoEncontrado.setDisponibilidade(salgadoRequestEditDto.disponibilidade());
+
+            var salgado = salgadoRepository.save(salgadoEncontrado);
+
+            var data = Map.of("message", "salgado atualizado com sucesso no banco de dados",
+                    "id", salgado.getId());
+
+            return ResponseEntity.ok().body(data);
+        }catch (RuntimeException e){
+            throw new RuntimeException("falha ao editar salgado devido a uma excessao: "+e.getMessage());
+        }
     }
 
     public ResponseEntity<Object> salgadosList(){
-        var list = salgadoRepository.findAll();
 
-        var data = Map.of("message","todos salgados",
-                "lista",list);
+       try {
+           var list = salgadoRepository.findAll();
 
-        return ResponseEntity.ok().body(data);
-    }
+           var data = Map.of("message", "todos salgados",
+                   "lista", list);
 
-    public ResponseEntity<Object> salgadosInOfferList(){
-        var list = salgadoRepository.findByEmOferta(true);
-
-        var data = Map.of("message","salgados em oferta",
-                "lista",list);
-
-       return ResponseEntity.ok().body(data);
-    }
-
-    public ResponseEntity<Object> salgadosByCategoryList(Categoria categoria){
-        var list = salgadoRepository.findByCategoria(categoria);
-
-        var data = Map.of("message","salgados na categoria: " + categoria,
-                "lista",list);
-
-        return ResponseEntity.ok().body(data);
+           return ResponseEntity.ok().body(data);
+       }catch (RuntimeException e){
+           throw new RuntimeException("falha ao trazer salgados devido a uma excessao: "+e.getMessage());
+       }
     }
 }

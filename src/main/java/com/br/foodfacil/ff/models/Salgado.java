@@ -1,7 +1,7 @@
 package com.br.foodfacil.ff.models;
 
-import com.br.foodfacil.ff.dtos.IngredienteDto;
-import com.br.foodfacil.ff.dtos.SalgadoDto;
+import com.br.foodfacil.ff.dtos.SaborDto;
+import com.br.foodfacil.ff.dtos.SalgadoRequestDto;
 import com.br.foodfacil.ff.enums.Categoria;
 import com.br.foodfacil.ff.enums.Disponibilidade;
 import lombok.*;
@@ -31,9 +31,9 @@ public class Salgado {
     private Disponibilidade disponibilidade;
     private long createdAt;
     private String observacao;
-    private List<IngredienteDto> ingredientes;
+    private List<String> sabores;
 
-    public Salgado(SalgadoDto salgadoDto){
+    public Salgado(SalgadoRequestDto salgadoDto){
         this.nome = salgadoDto.nome();
         this.categoria = salgadoDto.categoria();
         this.descricao = salgadoDto.descricao();
@@ -45,7 +45,6 @@ public class Salgado {
         this.precoEmOferta = salgadoDto.precoEmOferta();
         this.disponibilidade = salgadoDto.disponibilidade();
         this.createdAt = salgadoDto.createdAt();
-        this.observacao = salgadoDto.observacao();
-        this.ingredientes = salgadoDto.ingredientes();
+        this.sabores = salgadoDto.sabores();
     }
 }
