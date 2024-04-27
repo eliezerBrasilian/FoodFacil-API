@@ -7,15 +7,19 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record SalgadoResponseDto(
-        @NotNull String id,
-        @NotNull String name,
-        @NotNull Categoria categoria,
-        @NotNull String description,
-        @NotNull float price,
-        @NotNull String image,
-        @NotNull boolean inOffer,
-        @NotNull float priceInOffer,
-        @NotNull Disponibilidade disponibilidade,
-        @NotNull List<SaborDto> saborDtos
+        String id,
+        String nome,
+        Categoria categoria,
+        String descricao,
+        float preco,
+        String imagem,
+        String imagemRetangular,
+        String imagemQuadrada,
+        boolean emOferta,
+        float precoEmOferta,
+        Disponibilidade disponibilidade,
+        long createdAt,
+        String observacao,
+        List<SaborDto> sabores
 ) {
 }
