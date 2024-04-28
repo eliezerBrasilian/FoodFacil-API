@@ -207,16 +207,23 @@ public class UserService {
         try{
             var pedido = pedidoRepository.save(new Pedido(pedidoRequestDto));
 
-            var data = Map.of("message","pedido registrado",
-                    "id",pedido.getId());
+          /*  var userData = new UserData(pedidoRequestDto.userId(), pedidoRequestDto.userEmail(),"isisiss",
 
-            System.out.println(data);
+
+                    )
+
+            var pagamentoBody = new PagamentoBody();
+            var qrcode = pagamentoService.geraPix()
+            var data = Map.of("message","pedido registrado",
+                    "id",pedido.getId());*/
+
+          ;;  System.out.println(pedidoRequestDto);
 
             /*try{
                 pagamentoService.geraPix();
             }
 */
-            return ResponseEntity.ok().body(data);
+            return ResponseEntity.ok().body("data");
         }catch (Exception e){
             throw new RuntimeException("erro ao salvar pedido devido a uma excessao: "+e.getMessage());
         }

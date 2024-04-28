@@ -12,6 +12,7 @@ import java.util.List;
 
 public record PedidoRequestDto(
         String userId,
+        String userEmail,
         List<SimplesSalgado> salgados,
         List<SimplesAdicional> adicionais ,
         Address endereco,

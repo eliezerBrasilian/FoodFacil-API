@@ -6,6 +6,8 @@ import com.br.foodfacil.ff.dtos.PaymentReceiverDto;
 import com.br.foodfacil.ff.services.NotificationService;
 import com.br.foodfacil.ff.services.PagamentoService;
 import com.br.foodfacil.ff.utils.AppUtils;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +45,7 @@ public class PagamentoController {
     }
 
     @PostMapping("pix")
-    ResponseEntity<Object> pagamentoPix(@RequestBody PagamentoBody pagamentoBody){
+    ResponseEntity<Object> pagamentoPix(@RequestBody PagamentoBody pagamentoBody) throws MPException, MPApiException {
         System.out.println(pagamentoBody);
 
         //return ResponseEntity.ok().body(pagamentoBody);

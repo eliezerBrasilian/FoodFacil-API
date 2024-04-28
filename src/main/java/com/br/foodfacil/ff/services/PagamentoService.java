@@ -2,6 +2,7 @@ package com.br.foodfacil.ff.services;
 
 
 import com.br.foodfacil.ff.dtos.PagamentoBody;
+import com.br.foodfacil.ff.utils.GeraChavePix;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +18,7 @@ import com.mercadopago.resources.payment.Payment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -38,68 +39,10 @@ public class PagamentoService {
 
 
     public ResponseEntity<Object> geraPix(PagamentoBody pagamentoBody){
+        var chavePix = new GeraChavePix().generate(pagamentoBody);
 
-        var ENV_ACESS_TOKEN = "TEST-6242384253176670-042012-f47b1f59150e364b0788afa9cfdd23a5-618365626";
-
-        MercadoPagoConfig.setAccessToken(ENV_ACESS_TOKEN);
-
-        Map<String, String> customHeaders = new HashMap<>();
-        customHeaders.put("x-idempotency-key", UUID.randomUUID().toString());
-
-        MPRequestOptions requestOptions = MPRequestOptions.builder()
-                .customHeaders(customHeaders)
-                .build();
-
-        PaymentClient client = new PaymentClient();
-
-        PaymentCreateRequest paymentCreateRequest =
-                PaymentCreateRequest.builder()
-                        .transactionAmount(new BigDecimal(pagamentoBody.produtoData().valor()))
-                        .description(pagamentoBody.produtoData().descricao())
-                        .paymentMethodId("pix")
-                        .dateOfExpiration(OffsetDateTime.of(2025, 1, 10, 10, 10, 10, 0, ZoneOffset.UTC))
-                        .payer(
-                                PaymentPayerRequest.builder()
-                                        .email(pagamentoBody.userData().email())
-                                        .firstName(pagamentoBody.userData().primeiroNome())
-                                        .identification(
-                                                IdentificationRequest.builder().type("CPF").number(pagamentoBody.userData().cpf()).build())
-                                        .build())
-                        .build();
-
-        try {
-            Payment payment = client.create(paymentCreateRequest, requestOptions);
-            System.out.println();
-
-            var qrcodeBase64 = payment.getPointOfInteraction().getTransactionData().getQrCodeBase64();
-            var qrcode = payment.getPointOfInteraction().getTransactionData().getQrCode();
-
-            var data = Map.of(
-                    "message","sucesso",
-                    "qrcode",qrcode,
-                    "qrcodeBase64",qrcodeBase64
-                );
-
-            return ResponseEntity.ok().body(data);
-
-        } catch (MPApiException ex) {
-            System.out.printf(
-                    "MercadoPago Error. Status: %s, Content: %s%n",
-                    ex.getApiResponse().getStatusCode(), ex.getApiResponse().getContent());
-            var data = Map.of(
-                    "message","falha",
-                    "statuscode",ex.getApiResponse().getStatusCode(),
-                    "conteudo",ex.getApiResponse().getContent()
-            );
-            return ResponseEntity.badRequest().body(data);
-
-        } catch (MPException e) {
-            var data = Map.of(
-                    "message",e.getMessage(),
-                    "causa",e.getCause()
-            );
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(data);
-        }
+       return chavePix!= null? ResponseEntity.ok(chavePix) :
+               ResponseEntity.badRequest().body("falha ao gerar chave pix");
     }
 
 
