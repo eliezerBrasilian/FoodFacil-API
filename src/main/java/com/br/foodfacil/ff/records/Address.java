@@ -1,4 +1,4 @@
-package com.br.foodfacil.ff.dtos;
+package com.br.foodfacil.ff.records;
 
 public record Address(
         String cidade,

@@ -2,6 +2,7 @@ package com.br.foodfacil.ff.services;
 
 import com.br.foodfacil.ff.dtos.*;
 import com.br.foodfacil.ff.models.Pedido;
+import com.br.foodfacil.ff.records.Address;
 import com.br.foodfacil.ff.repositories.CupomRepository;
 import com.br.foodfacil.ff.repositories.PedidoRepository;
 import com.br.foodfacil.ff.repositories.UserRepository;
@@ -23,6 +24,9 @@ public class UserService {
     CupomRepository cupomRepository;
     @Autowired
     PedidoRepository pedidoRepository;
+
+    @Autowired
+    PagamentoService pagamentoService;
 
 
     public ResponseEntity<Object> updatePhoto(ProfilePhotoDto profilePhotoDto) {
@@ -199,17 +203,22 @@ public class UserService {
 
     }
 
-    public ResponseEntity<Object> registraPedido(PedidoDto pedidoDto){
+    public ResponseEntity<Object> registraPedido(PedidoRequestDto pedidoRequestDto){
         try{
-            var ingrediente = pedidoRepository.save(new Pedido(pedidoDto));
+            var pedido = pedidoRepository.save(new Pedido(pedidoRequestDto));
 
             var data = Map.of("message","pedido registrado",
-                    "id",ingrediente.getId());
+                    "id",pedido.getId());
 
+            System.out.println(data);
+
+            /*try{
+                pagamentoService.geraPix();
+            }
+*/
             return ResponseEntity.ok().body(data);
         }catch (Exception e){
-            var data = Map.of("message",e.getMessage(),"cause",e.getCause());
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(data);
+            throw new RuntimeException("erro ao salvar pedido devido a uma excessao: "+e.getMessage());
         }
     }
 
@@ -221,6 +230,6 @@ public class UserService {
         }
 
         return ResponseEntity.ok().body(Map.of("message","sucesso",
-                "lista",pedidoRepository.findByCompradorId(userId)));
+                "lista",pedidoRepository.findByUserId(userId)));
     }
 }

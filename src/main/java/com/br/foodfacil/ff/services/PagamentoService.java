@@ -17,7 +17,7 @@ import com.mercadopago.resources.payment.Payment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -62,8 +62,6 @@ public class PagamentoService {
                                 PaymentPayerRequest.builder()
                                         .email(pagamentoBody.userData().email())
                                         .firstName(pagamentoBody.userData().primeiroNome())
-                                        .identification(
-                                                IdentificationRequest.builder().type("CPF").number(pagamentoBody.userData().cpf()).build())
                                         .build())
                         .build();
 

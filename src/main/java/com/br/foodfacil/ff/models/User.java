@@ -1,6 +1,6 @@
 package com.br.foodfacil.ff.models;
 
-import com.br.foodfacil.ff.dtos.Address;
+import com.br.foodfacil.ff.records.Address;
 import com.br.foodfacil.ff.dtos.RegisterDto;
 import com.br.foodfacil.ff.dtos.SimpleCupomDto;
 import com.br.foodfacil.ff.enums.UserRole;

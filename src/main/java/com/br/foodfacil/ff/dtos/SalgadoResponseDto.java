@@ -19,7 +19,6 @@ public record SalgadoResponseDto(
         float precoEmOferta,
         Disponibilidade disponibilidade,
         long createdAt,
-        String observacao,
         List<SaborDto> sabores
 ) {
 }

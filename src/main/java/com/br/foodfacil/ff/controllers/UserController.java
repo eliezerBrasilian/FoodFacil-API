@@ -1,7 +1,7 @@
 package com.br.foodfacil.ff.controllers;
 
 import com.br.foodfacil.ff.dtos.*;
-import com.br.foodfacil.ff.services.PagamentoService;
+import com.br.foodfacil.ff.records.Address;
 import com.br.foodfacil.ff.services.UserService;
 import com.br.foodfacil.ff.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +46,11 @@ public class UserController {
         return userService.getCupoms(userId);
     }
 
-    @PostMapping("pedido/add")
-    ResponseEntity<Object> criaPedido(@RequestBody PedidoDto pedidoDto){
-        System.out.println(pedidoDto);
-        return userService.registraPedido(pedidoDto);
+    @PostMapping("/pedido")
+    ResponseEntity<Object> criaPedido(@RequestBody PedidoRequestDto pedidoRequestDto){
+        System.out.println("-----------pedidoRequestDto");
+        System.out.println(pedidoRequestDto);
+        return userService.registraPedido(pedidoRequestDto);
     }
 
     @GetMapping("pedidos/{userId}")
