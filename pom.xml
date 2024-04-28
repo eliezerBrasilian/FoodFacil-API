@@ -26,13 +26,6 @@
             <version>2.1.22</version>
         </dependency>
 
-        <!--acompanhar os logs la no ubuntu-->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-
-
         <!--autenticacao-->
         <dependency>
             <groupId>com.auth0</groupId>
