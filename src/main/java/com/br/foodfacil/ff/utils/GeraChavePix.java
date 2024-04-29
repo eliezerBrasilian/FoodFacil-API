@@ -39,8 +39,6 @@ public class GeraChavePix {
                         PaymentPayerRequest.builder()
                                 .email(pagamentoBody.userData().email())
                                 .firstName(pagamentoBody.userData().primeiroNome())
-                                .identification(
-                                        IdentificationRequest.builder().type("CPF").number(pagamentoBody.userData().cpf()).build())
                                 .build())
                 .build();
 
