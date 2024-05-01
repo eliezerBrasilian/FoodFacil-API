@@ -223,8 +223,15 @@ public class UserService {
             /*try{
                 pagamentoService.geraPix();
             }
-*/
-            return ResponseEntity.ok().body("data");
+
+            */
+
+             var data = Map.of("message","pedido registrado",
+                    "id",pedido.getId());
+
+            System.out.println(data);
+
+            return ResponseEntity.ok().body(data);
         }catch (Exception e){
             throw new RuntimeException("erro ao salvar pedido devido a uma excessao: "+e.getMessage());
         }

@@ -1,6 +1,6 @@
 package com.br.foodfacil.utils;
 
-import com.br.foodfacil.dtos.PagamentoBody;
+import com.br.foodfacil.records.PagamentoBody;
 import com.br.foodfacil.records.QrCode;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;

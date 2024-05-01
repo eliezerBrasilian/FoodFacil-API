@@ -1,7 +1,7 @@
 package com.br.foodfacil.controllers;
 
 import com.br.foodfacil.dtos.NotificationDTO;
-import com.br.foodfacil.dtos.PagamentoBody;
+import com.br.foodfacil.records.PagamentoBody;
 import com.br.foodfacil.dtos.PaymentReceiverDto;
 import com.br.foodfacil.services.NotificationService;
 import com.br.foodfacil.services.PagamentoService;

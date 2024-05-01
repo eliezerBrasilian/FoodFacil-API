@@ -1,24 +1,30 @@
 package com.br.foodfacil.controllers;
 
-import com.br.foodfacil.dtos.PedidoRequestDto;
+import com.br.foodfacil.dtos.PedidoRequestEditDto;
+import com.br.foodfacil.services.PedidosService;
 import com.br.foodfacil.utils.AppUtils;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/pedido")
 public class PedidosController {
+    @Autowired
+    PedidosService pedidosService;
 
-    @PostMapping
-    ResponseEntity<Object> registraPedido(@RequestBody PedidoRequestDto pedidoRequestDto){
-
-        System.out.println(pedidoRequestDto);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(Map.of("message","sucesso total"));
+    @GetMapping
+    ResponseEntity<Object> getAll(){
+        return pedidosService.getAll();
     }
+
+    @PutMapping("/{id}")
+    ResponseEntity<Object> edita(
+            @PathVariable String id,
+            @RequestBody PedidoRequestEditDto pedidoRequestEditDto){
+        return  pedidosService.edita(pedidoRequestEditDto, id);
+    }
+
 }

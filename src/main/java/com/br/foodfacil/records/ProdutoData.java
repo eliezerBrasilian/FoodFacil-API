@@ -1,4 +1,4 @@
-package com.br.foodfacil.dtos;
+package com.br.foodfacil.records;
 
 import jakarta.validation.constraints.NotNull;
 

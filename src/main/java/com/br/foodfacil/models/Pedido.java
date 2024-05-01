@@ -25,7 +25,7 @@ public class Pedido {
     private String id;
     private String userId;
     private List<SimplesSalgado> salgados;
-    private List<SimplesAdicional> adicionais;
+    private List<SimplesAdicional> acompanhamentos;
     private Address endereco;
     TipoDePagamento pagamentoEscolhido;
     float quantiaReservada;
@@ -36,10 +36,10 @@ public class Pedido {
     private PedidoStatus status;
     private PagamentoStatus pagamentoStatus;
 
-
     public Pedido(PedidoRequestDto pedidoRequestDto){
+        this.userId = pedidoRequestDto.userId();
         this.salgados = pedidoRequestDto.salgados();
-        this.adicionais = pedidoRequestDto.adicionais();
+        this.acompanhamentos = pedidoRequestDto.acompanhamentos();
         this.endereco = pedidoRequestDto.endereco();
         this.pagamentoEscolhido = pedidoRequestDto.pagamentoEscolhido();
         this.quantiaReservada = pedidoRequestDto.quantiaReservada();
