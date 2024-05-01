@@ -32,6 +32,9 @@ public class PedidosService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    NotificationService notificationService;
+
 
     public ResponseEntity<Object> edita(PedidoRequestEditDto pedidoRequestEditDto, String id){
 
@@ -45,8 +48,31 @@ public class PedidosService {
         try {
             var pedidoEncontrado = optionalPedido.get();
             pedidoEncontrado.setStatus(pedidoRequestEditDto.pedidoStatus());
-
             pedidoRepository.save(pedidoEncontrado);
+
+            var dispositivoToken = pedidoRequestEditDto.dispositivoToken();
+
+            if(dispositivoToken!= null){
+
+                var body = "";
+                var ps = pedidoRequestEditDto.pedidoStatus();
+
+                body = switch (ps) {
+                    case EM_PREPARO -> "Começamos a preparar seu pedido";
+                    case FINALIZADO -> "Uhuu, terminamos de preparar seu pedido";
+                    case SAIU_PARA_ENTREGA -> "Seu pedido saiu para entrega 😍";
+                    case CHEGOU_NO_ENDERECO -> "Tok tok, seu pedido chegou 😊✅";
+                    default -> body;
+                };
+
+                var notificacao = new NotificationDTO
+                        (dispositivoToken,"Atualização no seu pedido",body,"",Map.of());
+
+                notificationService.sendNotificationByToken(notificacao);
+            }
+
+
+
 
             var data = Map.of("message", "pedido atualizado com sucesso no banco de dados");
 
