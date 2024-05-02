@@ -53,10 +53,12 @@ public class PagamentoController {
     }
 
     @PostMapping("mercadopago/notificacao")
-    ResponseEntity<Object> notificacao(@RequestBody MercadoPagoNotificacaoRequestDto mercadoPagoNotificacaoRequestDto)  {
+    ResponseEntity<Object> notificacao(@RequestBody MercadoPagoNotificacaoRequestDto mercadoPagoNotificacaoRequestDto) throws MPException, MPApiException {
 
         System.out.println("recebido");
         System.out.println(mercadoPagoNotificacaoRequestDto);
+
+        pagamentoService.checaPagamento(mercadoPagoNotificacaoRequestDto);
 
         return ResponseEntity.ok().body("ok");
     }
