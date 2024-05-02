@@ -4,6 +4,7 @@ package com.br.foodfacil.services;
 import com.br.foodfacil.dtos.MercadoPagoNotificacaoRequestDto;
 import com.br.foodfacil.dtos.PagamentoResponseDto;
 import com.br.foodfacil.records.PagamentoBody;
+import com.br.foodfacil.utils.AppUtils;
 import com.br.foodfacil.utils.GeraChavePix;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
@@ -23,9 +24,7 @@ public class PagamentoService {
     }
 
     public ResponseEntity<Object> checaPagamento(MercadoPagoNotificacaoRequestDto mercadoPagoNotificacaoRequestDto) throws MPException, MPApiException {
-        final String ENV_ACESS_TOKEN = "TEST-6242384253176670-042012-f47b1f59150e364b0788afa9cfdd23a5-618365626";
-
-        MercadoPagoConfig.setAccessToken("YOUR_ACCESS_TOKEN");
+        MercadoPagoConfig.setAccessToken(AppUtils.TESTE_ACCESS_TOKEN);
 
         var pagamento = new PaymentClient();
 

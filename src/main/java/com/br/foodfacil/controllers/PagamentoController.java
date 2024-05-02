@@ -58,8 +58,6 @@ public class PagamentoController {
         System.out.println("recebido");
         System.out.println(mercadoPagoNotificacaoRequestDto);
 
-        pagamentoService.checaPagamento(mercadoPagoNotificacaoRequestDto);
-
-        return ResponseEntity.ok().body("ok");
+        return pagamentoService.checaPagamento(mercadoPagoNotificacaoRequestDto);
     }
 }

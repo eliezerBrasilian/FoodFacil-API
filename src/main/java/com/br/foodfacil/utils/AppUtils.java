@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class AppUtils {
     public static final String baseUrl = "/food-facil/api/v1";
+    public static final String PROD_ACCESS_TOKEN = "APP_USR-6242384253176670-042012-080e57c4894cbf364e99dec973ef3cc8-618365626";
+    public static final String TESTE_ACCESS_TOKEN = "TEST-6242384253176670-042012-f47b1f59150e364b0788afa9cfdd23a5-618365626";
 
     public static boolean verificaExpiracao(Date expirationDate){
         // Obtém a data e hora atuais
