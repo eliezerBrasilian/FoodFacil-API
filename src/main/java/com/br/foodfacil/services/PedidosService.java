@@ -36,24 +36,22 @@ public class PedidosService {
     NotificationService notificationService;
 
     public ResponseEntity<Object> confirmaPagamento(String id){
-       /* var optionalPedido = pedidoRepository.findById(id);
+        var optionalPedido = pedidoRepository.findById(id);
 
         if(optionalPedido.isEmpty()){
             var data = Map.of("message","pedido nao existe");
 
             //todo fazer reembolso nesse cenario
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
-        }*/
+        }
 
         try {
-           /* var pedidoEncontrado = optionalPedido.get();
+            var pedidoEncontrado = optionalPedido.get();
             pedidoEncontrado.setPagamentoStatus(PagamentoStatus.PAGAMENTO_APROVADO);
             pedidoEncontrado.setStatus(PedidoStatus.AGUARDANDO_PREPARO);
             pedidoRepository.save(pedidoEncontrado);
 
-            var dispositivoToken = pedidoEncontrado.getDispositivoToken();*/
-
-            var dispositivoToken = "cN472y3bSjyQz-0V3crFpY:APA91bFOdWae3vXsKXi2-e8z4nPN7QbnDQ6jXZe6QXYRshai-L1TC4SV6R3qtJ1TrNvReZljtWDdAkwkPVQ2zTKrjuVRf0vundHRaa60_Ohi7xQQt9YGxIJ-oGGVOSDbwGGUUlLQ9jQp";
+            var dispositivoToken = pedidoEncontrado.getDispositivoToken();
 
             if(dispositivoToken!= null){
 
@@ -68,7 +66,6 @@ public class PedidosService {
                 }catch (RuntimeException e){
                     System.out.println("não foi possivel enviar notificação para o dispostivido");
                 }
-
             }
 
             var data = Map.of("message", "pagamento foi confirmado com sucesso no banco de dados");

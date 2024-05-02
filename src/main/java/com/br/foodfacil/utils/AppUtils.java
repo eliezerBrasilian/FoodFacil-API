@@ -25,4 +25,11 @@ public class AppUtils {
 
        return expired;
     }
+
+    public static String obtemPrimeiroNome(String nomeCompleto){
+        // Dividir a string pelo espaço em branco
+        String[] partes = nomeCompleto.split(" ");
+
+        return  partes[0];
+    }
 }

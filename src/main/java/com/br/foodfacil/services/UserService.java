@@ -4,6 +4,9 @@ package com.br.foodfacil.services;
 import com.br.foodfacil.dtos.*;
 import com.br.foodfacil.models.Pedido;
 import com.br.foodfacil.records.Address;
+import com.br.foodfacil.records.PagamentoBody;
+import com.br.foodfacil.records.ProdutoData;
+import com.br.foodfacil.records.UserData;
 import com.br.foodfacil.repositories.*;
 import com.br.foodfacil.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,32 +212,22 @@ public class UserService {
 
     public ResponseEntity<Object> registraPedido(PedidoRequestDto pedidoRequestDto){
         try{
-            var pedido = pedidoRepository.save(new Pedido(pedidoRequestDto));
-
-          /*  var userData = new UserData(pedidoRequestDto.userId(), pedidoRequestDto.userEmail(),"isisiss",
-
-            var
-                    )
-
-            var pagamentoBody = new PagamentoBody();
-            var qrcode = pagamentoService.geraPix()
-            var data = Map.of("message","pedido registrado",
-                    "id",pedido.getId());*/
-
-          ;;  System.out.println(pedidoRequestDto);
-
-            /*try{
-                pagamentoService.geraPix();
+            var optionalUser = userRepository.findById(pedidoRequestDto.userId());
+            if(optionalUser.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message","usuario que tentou fazer o pedido não existe no banco de dados"));
             }
 
-            */
+            var pedido = pedidoRepository.save(new Pedido(pedidoRequestDto));
+            var user = optionalUser.get();
+            var userData = new UserData(user.getId(), user.getEmail(), AppUtils.obtemPrimeiroNome(user.getName()));
+            var produtoData = new ProdutoData(pedido.getId(), "salgado","salgado",String.valueOf(pedidoRequestDto.total()));
 
-             var data = Map.of("message","pedido registrado",
-                    "id",pedido.getId());
+            var pagamentoBody = new PagamentoBody(userData, produtoData);
 
-            System.out.println(data);
+            System.out.println(pagamentoBody);
 
-            return ResponseEntity.ok().body(data);
+            return pagamentoService.geraPix(pagamentoBody);
+
         }catch (Exception e){
             throw new RuntimeException("erro ao salvar pedido devido a uma excessao: "+e.getMessage());
         }
