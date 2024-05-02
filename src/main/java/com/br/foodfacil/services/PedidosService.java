@@ -36,15 +36,14 @@ public class PedidosService {
     NotificationService notificationService;
 
     public ResponseEntity<Object> confirmaPagamento(String id){
-
-        var optionalPedido = pedidoRepository.findById(id);
+       /* var optionalPedido = pedidoRepository.findById(id);
 
         if(optionalPedido.isEmpty()){
             var data = Map.of("message","pedido nao existe");
 
             //todo fazer reembolso nesse cenario
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
-        }
+        }*/
 
         try {
            /* var pedidoEncontrado = optionalPedido.get();
@@ -65,6 +64,7 @@ public class PedidosService {
 
                 try{
                     notificationService.sendNotificationByToken(notificacao);
+                    System.out.println("notitificacao enviada com sucesso !");
                 }catch (RuntimeException e){
                     System.out.println("não foi possivel enviar notificação para o dispostivido");
                 }

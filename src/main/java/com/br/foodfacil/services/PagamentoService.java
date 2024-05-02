@@ -88,6 +88,7 @@ public class PagamentoService {
                 System.out.println("pedidoId: "+pedidoId);
 
                 if(Objects.equals(pagamentoEncontrado.getStatus(), "approved")){
+                    System.out.println("pagamento foi aprovado, agora vamos para implementação confirmaPagamento()");
                     pedidosService.confirmaPagamento(pedidoId);
                 }
 
