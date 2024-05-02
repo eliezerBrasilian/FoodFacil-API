@@ -10,12 +10,18 @@ import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class PagamentoService {
+
+    @Autowired
+    PedidosService pedidosService;
 
     public ResponseEntity<Object> geraPix(PagamentoBody pagamentoBody){
         var chavePix = new GeraChavePix().generate(pagamentoBody);
@@ -77,7 +83,13 @@ public class PagamentoService {
                 );
 
                 System.out.println("status: "+pagamentoEncontrado.getStatus());
-                System.out.println("external reference: "+pagamentoEncontrado.getExternalReference());
+
+                String pedidoId = pagamentoEncontrado.getExternalReference();
+                System.out.println("pedidoId: "+pedidoId);
+
+                if(Objects.equals(pagamentoEncontrado.getStatus(), "approved")){
+                    pedidosService.confirmaPagamento(pedidoId);
+                }
 
                 return ResponseEntity.ok().body(pagamentoResposta);
             }
@@ -86,9 +98,7 @@ public class PagamentoService {
             throw new RuntimeException("excessao ao buscar paymentId, devido a: " + e.getMessage());
         }
 
-
     }
-
 
 }
 

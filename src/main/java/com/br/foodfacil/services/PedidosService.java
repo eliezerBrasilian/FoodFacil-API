@@ -35,7 +35,48 @@ public class PedidosService {
     @Autowired
     NotificationService notificationService;
 
-    public ResponseEntity<Object> edita(PedidoRequestEditDto pedidoRequestEditDto, String id){
+    public ResponseEntity<Object> confirmaPagamento(String id){
+
+        var optionalPedido = pedidoRepository.findById(id);
+
+        if(optionalPedido.isEmpty()){
+            var data = Map.of("message","pedido nao existe");
+
+            //todo fazer reembolso nesse cenario
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+        }
+
+        try {
+            var pedidoEncontrado = optionalPedido.get();
+            pedidoEncontrado.setPagamentoStatus(PagamentoStatus.PAGAMENTO_APROVADO);
+            pedidoRepository.save(pedidoEncontrado);
+
+            var dispositivoToken = pedidoEncontrado.getDispositivoToken();
+
+            if(dispositivoToken!= null){
+
+                var body = "Seu pagamento foi aprovado com sucesso 😍";
+
+                var notificacao = new NotificationDTO
+                        (dispositivoToken,"Atualização no seu pedido",body,"",Map.of());
+
+                try{
+                    notificationService.sendNotificationByToken(notificacao);
+                }catch (RuntimeException e){
+                    System.out.println("não foi possivel enviar notificação para o dispostivido");
+                }
+
+            }
+
+            var data = Map.of("message", "pagamento foi confirmado com sucesso no banco de dados");
+
+            return ResponseEntity.ok().body(data);
+        }catch (RuntimeException e){
+            throw new RuntimeException("falha ao confirmar pagamento do pedido devido a uma excessao: "+e.getMessage());
+        }
+    }
+
+    public ResponseEntity<Object> editaStatus(PedidoRequestEditDto pedidoRequestEditDto, String id){
 
         var optionalPedido = pedidoRepository.findById(id);
 

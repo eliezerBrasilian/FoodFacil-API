@@ -24,7 +24,7 @@ public class PedidosController {
     ResponseEntity<Object> edita(
             @PathVariable String id,
             @RequestBody PedidoRequestEditDto pedidoRequestEditDto){
-        return  pedidosService.edita(pedidoRequestEditDto, id);
+        return  pedidosService.editaStatus(pedidoRequestEditDto, id);
     }
 
 }
