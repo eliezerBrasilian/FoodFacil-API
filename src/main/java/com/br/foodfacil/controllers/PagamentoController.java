@@ -52,7 +52,7 @@ public class PagamentoController {
         return  pagamentoService.geraPix(pagamentoBody);
     }
 
-    @PostMapping("notificacao")
+    @PostMapping("mercadopago/notificacao")
     ResponseEntity<Object> notificacao(@RequestBody Map<String,Object> data)  {
 
         System.out.println("recebido");
