@@ -49,6 +49,7 @@ public class PedidosService {
         try {
             var pedidoEncontrado = optionalPedido.get();
             pedidoEncontrado.setPagamentoStatus(PagamentoStatus.PAGAMENTO_APROVADO);
+            pedidoEncontrado.setStatus(PedidoStatus.AGUARDANDO_PREPARO);
             pedidoRepository.save(pedidoEncontrado);
 
             var dispositivoToken = pedidoEncontrado.getDispositivoToken();
