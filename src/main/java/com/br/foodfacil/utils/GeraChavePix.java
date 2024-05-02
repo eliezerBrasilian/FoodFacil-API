@@ -18,7 +18,7 @@ import java.util.UUID;
 public class GeraChavePix {
 
     public QrCode generate(PagamentoBody pagamentoBody) {
-        MercadoPagoConfig.setAccessToken(AppUtils.TESTE_ACCESS_TOKEN);
+        MercadoPagoConfig.setAccessToken(AppUtils.PROD_ACCESS_TOKEN);
 
         Map<String, String> customHeaders = new HashMap<>();
         customHeaders.put("x-idempotency-key", UUID.randomUUID().toString());

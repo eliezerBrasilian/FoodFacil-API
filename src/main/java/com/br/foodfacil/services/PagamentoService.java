@@ -24,7 +24,7 @@ public class PagamentoService {
     }
 
     public ResponseEntity<Object> checaPagamento(MercadoPagoNotificacaoRequestDto mercadoPagoNotificacaoRequestDto) throws MPException, MPApiException {
-        MercadoPagoConfig.setAccessToken(AppUtils.TESTE_ACCESS_TOKEN);
+        MercadoPagoConfig.setAccessToken(AppUtils.PROD_ACCESS_TOKEN);
 
         var pagamento = new PaymentClient();
 
