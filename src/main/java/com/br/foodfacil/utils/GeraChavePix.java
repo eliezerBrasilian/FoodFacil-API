@@ -38,6 +38,7 @@ public class GeraChavePix {
                                 .email(pagamentoBody.userData().email())
                                 .firstName(pagamentoBody.userData().primeiroNome())
                                 .build())
+                .externalReference(pagamentoBody.produtoData().id())
                 .build();
 
         try {

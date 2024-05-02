@@ -10,6 +10,7 @@ import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,49 +32,58 @@ public class PagamentoService {
         Long paymentId = Long.valueOf(mercadoPagoNotificacaoRequestDto.data().id());
         System.out.println("paymentID: " + paymentId);
 
-         var pagamentoEncontrado = pagamento.get(paymentId);
+        try{
+            var pagamentoEncontrado = pagamento.get(paymentId);
 
-         var payer = pagamentoEncontrado.getPayer();
-         var identification = payer.getIdentification();
-         var transactionDetails = pagamentoEncontrado.getTransactionDetails();
+            if(pagamentoEncontrado != null){
+                var payer = pagamentoEncontrado.getPayer();
+                var identification = payer.getIdentification();
+                var transactionDetails = pagamentoEncontrado.getTransactionDetails();
 
-         var pagamentoResposta = new PagamentoResponseDto(
-                 pagamentoEncontrado.getId(),
-                 pagamentoEncontrado.getDateCreated(),
-                 pagamentoEncontrado.getDateApproved(),
-                 pagamentoEncontrado.getDateLastUpdated(),
-                 pagamentoEncontrado.getMoneyReleaseDate(),
-                 pagamentoEncontrado.getPaymentMethodId(),
-                 pagamentoEncontrado.getPaymentTypeId(),
-                 pagamentoEncontrado.getStatus(),
-                 pagamentoEncontrado.getStatusDetail(),
-                 pagamentoEncontrado.getCurrencyId(),
-                 pagamentoEncontrado.getDescription(),
-                 pagamentoEncontrado.getCollectorId(),
-                 new PagamentoResponseDto.PayerDto(
-                         payer.getId(),
-                         payer.getEmail(),
-                         new PagamentoResponseDto.PayerDto.IdentificationDto(
-                                 identification.getType(),
-                                 identification.getNumber()
-                         ),
-                         payer.getType()),
-                 pagamentoEncontrado.getMetadata(),
-                 pagamentoEncontrado.getAdditionalInfo(),
-                 pagamentoEncontrado.getExternalReference(),
-                 pagamentoEncontrado.getTransactionAmount(),
-                 pagamentoEncontrado.getTransactionAmountRefunded(),
-                 pagamentoEncontrado.getCouponAmount(),
-                 new PagamentoResponseDto.TransactionDetailsDto(
-                         transactionDetails.getNetReceivedAmount(),
-                         transactionDetails.getTotalPaidAmount(),
-                         transactionDetails.getOverpaidAmount(),
-                         transactionDetails.getInstallmentAmount()),
-                 pagamentoEncontrado.getInstallments(),
-                 pagamentoEncontrado.getCard()
-         );
+                var pagamentoResposta = new PagamentoResponseDto(
+                        pagamentoEncontrado.getId(),
+                        pagamentoEncontrado.getDateCreated(),
+                        pagamentoEncontrado.getDateApproved(),
+                        pagamentoEncontrado.getDateLastUpdated(),
+                        pagamentoEncontrado.getMoneyReleaseDate(),
+                        pagamentoEncontrado.getPaymentMethodId(),
+                        pagamentoEncontrado.getPaymentTypeId(),
+                        pagamentoEncontrado.getStatus(),
+                        pagamentoEncontrado.getStatusDetail(),
+                        pagamentoEncontrado.getCurrencyId(),
+                        pagamentoEncontrado.getDescription(),
+                        pagamentoEncontrado.getCollectorId(),
+                        new PagamentoResponseDto.PayerDto(
+                                payer.getId(),
+                                payer.getEmail(),
+                                new PagamentoResponseDto.PayerDto.IdentificationDto(
+                                        identification.getType(),
+                                        identification.getNumber()
+                                ),
+                                payer.getType()),
+                        pagamentoEncontrado.getMetadata(),
+                        pagamentoEncontrado.getAdditionalInfo(),
+                        pagamentoEncontrado.getExternalReference(),
+                        pagamentoEncontrado.getTransactionAmount(),
+                        pagamentoEncontrado.getTransactionAmountRefunded(),
+                        pagamentoEncontrado.getCouponAmount(),
+                        new PagamentoResponseDto.TransactionDetailsDto(
+                                transactionDetails.getNetReceivedAmount(),
+                                transactionDetails.getTotalPaidAmount(),
+                                transactionDetails.getOverpaidAmount(),
+                                transactionDetails.getInstallmentAmount()),
+                        pagamentoEncontrado.getInstallments(),
+                        pagamentoEncontrado.getCard()
+                );
 
-         return ResponseEntity.ok().body(pagamentoResposta);
+                return ResponseEntity.ok().body(pagamentoResposta);
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("não existe um pagamento com esse id");
+        }catch (RuntimeException e){
+            throw new RuntimeException("excessao ao buscar paymentId, devido a: " + e.getMessage());
+        }
+
+
     }
 
 
