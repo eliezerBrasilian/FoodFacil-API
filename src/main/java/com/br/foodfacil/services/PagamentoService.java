@@ -28,7 +28,9 @@ public class PagamentoService {
 
         var pagamento = new PaymentClient();
 
-        Long paymentId = 123456789L;
+        Long paymentId = Long.valueOf(mercadoPagoNotificacaoRequestDto.data().id());
+        System.out.println("paymentID: " + paymentId);
+
          var pagamentoEncontrado = pagamento.get(paymentId);
 
          var payer = pagamentoEncontrado.getPayer();
