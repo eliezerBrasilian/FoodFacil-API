@@ -4,9 +4,7 @@ package com.br.foodfacil.services;
 import com.br.foodfacil.dtos.*;
 import com.br.foodfacil.models.Pedido;
 import com.br.foodfacil.records.Address;
-import com.br.foodfacil.repositories.CupomRepository;
-import com.br.foodfacil.repositories.PedidoRepository;
-import com.br.foodfacil.repositories.UserRepository;
+import com.br.foodfacil.repositories.*;
 import com.br.foodfacil.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,10 +24,14 @@ public class UserService {
     CupomRepository cupomRepository;
     @Autowired
     PedidoRepository pedidoRepository;
+    @Autowired
+    SalgadoRepository salgadoRepository;
 
     @Autowired
     PagamentoService pagamentoService;
 
+    @Autowired
+    AcompanhamentoRepository acompanhamentoRepository;
 
     public ResponseEntity<Object> updatePhoto(ProfilePhotoDto profilePhotoDto) {
         var optionalUser = userRepository.findById(profilePhotoDto.userUid());
@@ -244,7 +247,91 @@ public class UserService {
             return ResponseEntity.badRequest().body(Map.of("message","usuário não existe"));
         }
 
-        return ResponseEntity.ok().body(Map.of("message","sucesso",
-                "lista",pedidoRepository.findByUserId(userId)));
+        try {
+            var pedidos = pedidoRepository.findByUserId(userId);
+
+            var pedidosResponse = new ArrayList<PedidoDoUsuarioResponseDto>();
+            var salgadosResumidos = new ArrayList<SalgadoResumidoResponseDto>();
+            var acompanhamentosResumidos = new ArrayList<AcompanhamentoResumidoResponseDto>();
+
+            pedidos.forEach(pedido->{
+                var salgados = pedido.getSalgados();
+                salgados.forEach(s->{
+                    var salgadoId = s.id();
+                    var sabores = s.sabores();
+                    var observacao = s.observacao();
+                    var quantidade = s.quantidade();
+                    //buscando salgado
+                    var optionalSalgado = salgadoRepository.findById(salgadoId);
+                    if(optionalSalgado.isEmpty()){
+                        System.out.println("não existe nenhum salgado com o id, " + salgadoId);
+                        salgadosResumidos.add(
+                                new SalgadoResumidoResponseDto("INEXISTENTE","INEXISTENTE","INEXISTENTE",
+                                        0f,
+                                        "INEXISTENTE",0, Collections.emptyList()));
+                        //throw new RuntimeException("não existe nenhum salgado com o id, " + salgadoId + "devido a uma excessao");
+                    } else {
+                        var salgadoEncontrado = optionalSalgado.get();
+                        salgadosResumidos.add(
+                                new SalgadoResumidoResponseDto(
+                                        salgadoEncontrado.getNome(),
+                                        salgadoEncontrado.getDescricao(),
+                                        salgadoEncontrado.getImagem(),
+                                        salgadoEncontrado.getPreco(),
+                                        observacao, quantidade, sabores));
+                    }
+                });
+
+                var acompanhamentos = pedido.getAcompanhamentos();
+                acompanhamentos.forEach(a->{
+                    var acompanhamentoId = a.id();
+                    var quantidade = a.quantidade();
+
+                    var optionalAcomp = acompanhamentoRepository.findById(acompanhamentoId);
+                    if(optionalAcomp.isEmpty()) {
+                        System.out.println("não existe nenhum acompanhamento com o id, " + acompanhamentoId);
+                        //throw new RuntimeException("falha ao trazer pedidos devido a uma excessao");
+                        acompanhamentosResumidos.add(
+                                new AcompanhamentoResumidoResponseDto(
+                                        "INEXISTENTE","INEXISTENTE",0f,0
+                                )
+                        );
+                    }
+                    else{
+                        var acompEncontrado = optionalAcomp.get();
+                        var nome = acompEncontrado.getNome();
+                        var descricao = acompEncontrado.getDescricao();
+                        var preco = acompEncontrado.getPreco();
+                        acompanhamentosResumidos.add(
+                                new AcompanhamentoResumidoResponseDto(
+                                        nome,descricao,preco,quantidade
+                                )
+                        );
+                    }
+                });
+
+                var newPedido = new PedidoDoUsuarioResponseDto(
+                        pedido.getId(),
+                        pedido.getUserId(),
+                        salgadosResumidos,
+                        acompanhamentosResumidos,
+                        pedido.getEndereco(),
+                        pedido.getPagamentoEscolhido(),
+                        pedido.getQuantiaReservada(),
+                        pedido.getTotal(),
+                        pedido.getCreatedAt(),
+                        pedido.getStatus(),
+                        pedido.getPagamentoStatus()
+                );
+                pedidosResponse.add(newPedido);
+            });
+
+            return ResponseEntity.ok().body(Map.of("message","sucesso",
+                    "lista",pedidosResponse));
+        }catch (RuntimeException e){
+            throw new RuntimeException("excessao ocorreu ao tentar buscar os pedidos do usuario: " + e.getMessage());
+        }
+
+
     }
 }

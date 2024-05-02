@@ -35,7 +35,6 @@ public class PedidosService {
     @Autowired
     NotificationService notificationService;
 
-
     public ResponseEntity<Object> edita(PedidoRequestEditDto pedidoRequestEditDto, String id){
 
         var optionalPedido = pedidoRepository.findById(id);
@@ -108,7 +107,7 @@ public class PedidosService {
                    if(optionalSalgado.isEmpty()){
                        System.out.println("não existe nenhum salgado com o id, " + salgadoId);
                        salgadosResumidos.add(
-                               new SalgadoResumidoResponseDto("INEXISTENTE","INEXISTENTE",
+                               new SalgadoResumidoResponseDto("INEXISTENTE","INEXISTENTE","INEXISTENTE",
                                        0f,
                                        "INEXISTENTE",0, Collections.emptyList()));
                        //throw new RuntimeException("não existe nenhum salgado com o id, " + salgadoId + "devido a uma excessao");
@@ -117,6 +116,7 @@ public class PedidosService {
                        salgadosResumidos.add(
                                new SalgadoResumidoResponseDto(
                                        salgadoEncontrado.getNome(),
+                                       salgadoEncontrado.getDescricao(),
                                        salgadoEncontrado.getImagem(),
                                        salgadoEncontrado.getPreco(),
                                        observacao, quantidade, sabores));
