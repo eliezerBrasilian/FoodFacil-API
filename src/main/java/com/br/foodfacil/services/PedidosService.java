@@ -47,12 +47,14 @@ public class PedidosService {
         }
 
         try {
-            var pedidoEncontrado = optionalPedido.get();
+           /* var pedidoEncontrado = optionalPedido.get();
             pedidoEncontrado.setPagamentoStatus(PagamentoStatus.PAGAMENTO_APROVADO);
             pedidoEncontrado.setStatus(PedidoStatus.AGUARDANDO_PREPARO);
             pedidoRepository.save(pedidoEncontrado);
 
-            var dispositivoToken = pedidoEncontrado.getDispositivoToken();
+            var dispositivoToken = pedidoEncontrado.getDispositivoToken();*/
+
+            var dispositivoToken = "cN472y3bSjyQz-0V3crFpY:APA91bFOdWae3vXsKXi2-e8z4nPN7QbnDQ6jXZe6QXYRshai-L1TC4SV6R3qtJ1TrNvReZljtWDdAkwkPVQ2zTKrjuVRf0vundHRaa60_Ohi7xQQt9YGxIJ-oGGVOSDbwGGUUlLQ9jQp";
 
             if(dispositivoToken!= null){
 
