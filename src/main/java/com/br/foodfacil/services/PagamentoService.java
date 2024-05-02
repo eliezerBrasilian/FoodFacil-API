@@ -76,6 +76,9 @@ public class PagamentoService {
                         pagamentoEncontrado.getCard()
                 );
 
+                System.out.println("status: "+pagamentoEncontrado.getStatus());
+                System.out.println("external reference: "+pagamentoEncontrado.getExternalReference());
+
                 return ResponseEntity.ok().body(pagamentoResposta);
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("não existe um pagamento com esse id");
