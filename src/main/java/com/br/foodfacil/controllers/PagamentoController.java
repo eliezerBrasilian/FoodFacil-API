@@ -1,5 +1,6 @@
 package com.br.foodfacil.controllers;
 
+import com.br.foodfacil.dtos.MercadoPagoNotificacaoRequestDto;
 import com.br.foodfacil.dtos.NotificationDTO;
 import com.br.foodfacil.records.PagamentoBody;
 import com.br.foodfacil.dtos.PaymentReceiverDto;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/pagamento")
@@ -53,10 +53,10 @@ public class PagamentoController {
     }
 
     @PostMapping("mercadopago/notificacao")
-    ResponseEntity<Object> notificacao(@RequestBody Map<String,Object> data)  {
+    ResponseEntity<Object> notificacao(@RequestBody MercadoPagoNotificacaoRequestDto mercadoPagoNotificacaoRequestDto)  {
 
         System.out.println("recebido");
-        System.out.println(data);
+        System.out.println(mercadoPagoNotificacaoRequestDto);
 
         return ResponseEntity.ok().body("ok");
     }
