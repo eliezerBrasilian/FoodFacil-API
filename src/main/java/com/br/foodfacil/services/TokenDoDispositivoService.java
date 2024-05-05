@@ -1,0 +1,45 @@
+package com.br.foodfacil.services;
+
+import com.br.foodfacil.dtos.TokenDoDispositivoRequestDto;
+import com.br.foodfacil.models.TokenDoDIspositivo;
+import com.br.foodfacil.repositories.TokenDoDispositivoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+@Service
+public class TokenDoDispositivoService {
+    @Autowired
+    TokenDoDispositivoRepository tokenDoDispositivoRepository;
+
+    public ResponseEntity<Object> salvaOuAtualiza(TokenDoDispositivoRequestDto tokenDoDispositivoRequestDto){
+        try{
+           var optional = tokenDoDispositivoRepository.findByUserId(tokenDoDispositivoRequestDto.userId());
+           if(optional.isEmpty()){
+               //salva
+               var tokenDoDIspositivo = tokenDoDispositivoRepository.save(new TokenDoDIspositivo(tokenDoDispositivoRequestDto));
+               var data = Map.of("message", "salgado salvo com sucesso",
+                       "id", tokenDoDIspositivo.getId());
+
+               return ResponseEntity.ok().body(data);
+           }else{
+               //atualiza
+
+              var tokenDoDispositivoEncontrado = optional.get();
+              tokenDoDispositivoEncontrado.setToken(tokenDoDispositivoEncontrado.getToken());
+
+               var tokenDoDIspositivo = tokenDoDispositivoRepository.save(tokenDoDispositivoEncontrado);
+
+               var data = Map.of("message", "salgado atualizado com sucesso",
+                       "id", tokenDoDIspositivo.getId());
+               return ResponseEntity.ok().body(data);
+           }
+
+        }catch (RuntimeException e){
+            throw new RuntimeException("falha ao salvar devido a uma excessao: "+e.getMessage());
+        }
+
+    }
+}

@@ -40,6 +40,7 @@ public class User implements UserDetails {
     private int totalDePedidosFeitos;
     private List<SimpleCupomDto> cupoms;
 
+
     public User(AuthRequestDto authRequestDto) {
         this.email = authRequestDto.email();
         this.password = authRequestDto.password();

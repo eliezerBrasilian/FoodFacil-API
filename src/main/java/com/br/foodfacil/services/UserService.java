@@ -36,6 +36,9 @@ public class UserService {
     @Autowired
     AcompanhamentoRepository acompanhamentoRepository;
 
+    @Autowired
+    TokenDoDispositivoService tokenDoDispositivoService;
+
     public ResponseEntity<Object> updatePhoto(ProfilePhotoDto profilePhotoDto) {
         var optionalUser = userRepository.findById(profilePhotoDto.userUid());
 
@@ -326,5 +329,9 @@ public class UserService {
         }
 
 
+    }
+
+    public ResponseEntity<Object> salvaOuAtualizaToken(TokenDoDispositivoRequestDto tokenDoDispositivoRequestDto){
+        return tokenDoDispositivoService.salvaOuAtualiza(tokenDoDispositivoRequestDto);
     }
 }

@@ -4,6 +4,7 @@ import com.br.foodfacil.dtos.*;
 import com.br.foodfacil.records.Address;
 import com.br.foodfacil.services.UserService;
 import com.br.foodfacil.utils.AppUtils;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @PostMapping("/token-dispositivo")
+    public ResponseEntity<Object> salvaOuAtualizaToken(@Valid @RequestBody TokenDoDispositivoRequestDto tokenDoDispositivoRequestDto){
+        return userService.salvaOuAtualizaToken(tokenDoDispositivoRequestDto);
+    }
 
     @PostMapping("update-photo")
     ResponseEntity<Object> updatePhoto(@RequestBody ProfilePhotoDto profilePhotoDto){

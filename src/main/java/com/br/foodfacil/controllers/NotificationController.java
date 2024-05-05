@@ -1,5 +1,6 @@
 package com.br.foodfacil.controllers;
 
+import com.br.foodfacil.dtos.NotificacaoRequestDTO;
 import com.br.foodfacil.dtos.NotificationDTO;
 import com.br.foodfacil.services.NotificationService;
 import com.br.foodfacil.utils.AppUtils;
@@ -27,8 +28,13 @@ public class NotificationController {
     @Autowired
     NotificationService notificationService;
 
-    record DispositivoToken(String dispositivoToken){};
+    @PostMapping("/em-massa")
+    public ResponseEntity<Object> enviaNotificacoesEmMassa(@RequestBody NotificacaoRequestDTO notificacaoRequestDTO){
+        System.out.println(notificacaoRequestDTO);
+        return notificationService.enviaNotificacoesEmMassa(notificacaoRequestDTO);
+    }
 
+    record DispositivoToken(String dispositivoToken){};
     @PostMapping("/dispositivo")
     public ResponseEntity<Object> enviaNotificacaoParaODispositivo(@RequestBody DispositivoToken dispositivoToken){
         System.out.println("------token");
