@@ -35,6 +35,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/adicional").authenticated()
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/exibir_vendas").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,AppUtils.baseUrl + "/pedido").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,AppUtils.baseUrl + "/salgado").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

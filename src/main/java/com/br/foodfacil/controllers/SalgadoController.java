@@ -17,6 +17,11 @@ public class SalgadoController {
     @Autowired
     SalgadoService salgadoService;
 
+    @DeleteMapping()
+    ResponseEntity<Object> deletaTudo(){
+       return salgadoService.deletaTudo();
+    }
+
     @PostMapping
     ResponseEntity<Object> registerSalgado(
             @RequestBody SalgadoRequestDto salgadoRequestDto){

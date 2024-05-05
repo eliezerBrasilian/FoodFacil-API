@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Map;
 
@@ -17,6 +18,18 @@ import java.util.Map;
 public class SalgadoService {
     @Autowired
     SalgadoRepository salgadoRepository;
+
+    public
+    ResponseEntity<Object> deletaTudo(){
+        try{
+             salgadoRepository.deleteAll();
+            var data = Map.of("message", "delatados com sucessso");
+            return ResponseEntity.ok().body(data);
+        }
+        catch (RuntimeException e){
+            throw new RuntimeException("excessao ocorreu ao tentar deletar todos salgadsos");
+        }
+    }
 
     public ResponseEntity<Object> registrar(SalgadoRequestDto salgadoDto){
 
