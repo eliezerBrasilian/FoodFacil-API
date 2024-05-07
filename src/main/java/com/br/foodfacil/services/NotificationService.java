@@ -46,7 +46,6 @@ public class NotificationService {
         }
     }
 
-
     public String sendNotificationByToken(NotificationDTO notificationDTO) {
         var notification = Notification.builder()
                 .setTitle(notificationDTO.title())
