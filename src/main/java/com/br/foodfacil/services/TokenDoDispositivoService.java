@@ -42,4 +42,11 @@ public class TokenDoDispositivoService {
         }
 
     }
+
+    public ResponseEntity<Object> getAll(){
+        var list = tokenDoDispositivoRepository.findAll();
+
+
+        return ResponseEntity.ok().body(list);
+    }
 }

@@ -3,6 +3,7 @@ package com.br.foodfacil.controllers;
 import com.br.foodfacil.dtos.NotificacaoRequestDTO;
 import com.br.foodfacil.dtos.NotificationDTO;
 import com.br.foodfacil.services.NotificationService;
+import com.br.foodfacil.services.TokenDoDispositivoService;
 import com.br.foodfacil.utils.AppUtils;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -10,11 +11,7 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -30,6 +27,14 @@ public class NotificationController {
 
     @Autowired
     NotificationService notificationService;
+
+    @Autowired
+    TokenDoDispositivoService tokenDoDispositivoService;
+
+    @GetMapping("/tokens-salvos-de-celular")
+    public ResponseEntity<Object> getAllTokensDeCelular(){
+        return tokenDoDispositivoService.getAll();
+    }
 
     @PostMapping("/em-massa")
     public ResponseEntity<Object> enviaNotificacoesEmMassa(@RequestBody NotificacaoRequestDTO notificacaoRequestDTO){
