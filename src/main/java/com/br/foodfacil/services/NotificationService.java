@@ -2,7 +2,10 @@ package com.br.foodfacil.services;
 
 import com.br.foodfacil.dtos.NotificacaoRequestDTO;
 import com.br.foodfacil.dtos.NotificationDTO;
+import com.br.foodfacil.enums.Item;
+import com.br.foodfacil.enums.MensagemRetorno;
 import com.br.foodfacil.repositories.TokenDoDispositivoRepository;
+import com.br.foodfacil.utils.AppUtils;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
@@ -20,6 +23,22 @@ public class NotificationService {
 
     @Autowired
     private TokenDoDispositivoRepository tokenDoDispositivoRepository;
+
+    public ResponseEntity<Object> excluiTokenSalvoDeCelular(String id){
+
+        var optionalTokenDoDispositivo = tokenDoDispositivoRepository.findById(id);
+
+        if(optionalTokenDoDispositivo.isEmpty()){
+            return new AppUtils().AppCustomJson(MensagemRetorno.ITEM_NAO_EXISTE, Item.TOKEN_DO_CELULAR);
+        }
+
+        try{
+            tokenDoDispositivoRepository.deleteById(id);
+            return new AppUtils().AppCustomJson(MensagemRetorno.EXCLUIDO_COM_SUCESSO, Item.TOKEN_DO_CELULAR);
+        }catch (RuntimeException e){
+            throw new RuntimeException(AppUtils.CustomMensagemExcessao(MensagemRetorno.FALHA_AO_DELETAR,e.getMessage()));
+        }
+    }
 
     public ResponseEntity<Object> enviaNotificacoesEmMassa(NotificacaoRequestDTO notificacaoRequestDTO){
         try{

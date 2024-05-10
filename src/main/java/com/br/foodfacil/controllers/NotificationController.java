@@ -36,6 +36,12 @@ public class NotificationController {
         return tokenDoDispositivoService.getAll();
     }
 
+    @DeleteMapping("/tokens-salvos-de-celular/{id}")
+    public ResponseEntity<Object> excluiTokenSalvo(@PathVariable String id){
+
+        return notificationService.excluiTokenSalvoDeCelular(id);
+    }
+
     @PostMapping("/em-massa")
     public ResponseEntity<Object> enviaNotificacoesEmMassa(@RequestBody NotificacaoRequestDTO notificacaoRequestDTO){
         System.out.println(notificacaoRequestDTO);

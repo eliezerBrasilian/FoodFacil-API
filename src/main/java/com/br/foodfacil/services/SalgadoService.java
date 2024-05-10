@@ -3,8 +3,11 @@ package com.br.foodfacil.services;
 import com.br.foodfacil.dtos.SalgadoRequestDto;
 import com.br.foodfacil.dtos.SalgadoRequestEditDto;
 import com.br.foodfacil.enums.Categoria;
+import com.br.foodfacil.enums.Item;
+import com.br.foodfacil.enums.MensagemRetorno;
 import com.br.foodfacil.models.Salgado;
 import com.br.foodfacil.repositories.SalgadoRepository;
+import com.br.foodfacil.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -49,17 +52,14 @@ public class SalgadoService {
         var optionalSalgado = salgadoRepository.findById(id);
 
         if(optionalSalgado.isEmpty()){
-            var data = Map.of("message","salgado nao existe");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+            return new AppUtils().AppCustomJson(MensagemRetorno.ITEM_NAO_EXISTE, Item.SALGADO);
         }
 
         try{
             salgadoRepository.deleteById(id);
-            var data = Map.of("message","salgado excluido com sucesso");
-
-            return ResponseEntity.ok().body(data);
+            return new AppUtils().AppCustomJson(MensagemRetorno.EXCLUIDO_COM_SUCESSO, Item.SALGADO);
         }catch (RuntimeException e){
-            throw new RuntimeException("falha ao deletar devido a uma excessao: "+e.getMessage());
+            throw new RuntimeException(AppUtils.CustomMensagemExcessao(MensagemRetorno.FALHA_AO_DELETAR,e.getMessage()));
         }
     }
 
@@ -68,9 +68,7 @@ public class SalgadoService {
         var optionalSalgado = salgadoRepository.findById(id);
 
         if(optionalSalgado.isEmpty()){
-            var data = Map.of("message","salgado nao existe");
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(data);
+            return new AppUtils().AppCustomJson(MensagemRetorno.ITEM_NAO_EXISTE, Item.SALGADO);
         }
 
         try {
@@ -87,28 +85,14 @@ public class SalgadoService {
             salgadoEncontrado.setSabores(salgadoRequestEditDto.sabores());
             salgadoEncontrado.setDisponibilidade(salgadoRequestEditDto.disponibilidade());
 
-            var salgado = salgadoRepository.save(salgadoEncontrado);
-
-            var data = Map.of("message", "salgado atualizado com sucesso no banco de dados",
-                    "id", salgado.getId());
-
-            return ResponseEntity.ok().body(data);
+            return new AppUtils().AppCustomJson(MensagemRetorno.EDITADO_COM_SUCESSO, Item.SALGADO);
         }catch (RuntimeException e){
-            throw new RuntimeException("falha ao editar salgado devido a uma excessao: "+e.getMessage());
+            throw new RuntimeException(AppUtils.CustomMensagemExcessao(MensagemRetorno.FALHA_AO_EDITAR,e.getMessage()));
         }
     }
 
     public ResponseEntity<Object> salgadosList(){
-
-       try {
            var list = salgadoRepository.findAll();
-
-           var data = Map.of("message", "todos salgados",
-                   "lista", list);
-
-           return ResponseEntity.ok().body(data);
-       }catch (RuntimeException e){
-           throw new RuntimeException("falha ao trazer salgados devido a uma excessao: "+e.getMessage());
-       }
+           return ResponseEntity.ok().body(Map.of("lista", list));
     }
 }
