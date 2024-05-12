@@ -17,7 +17,8 @@ import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:5173",
         "https://food-facil-painel-admin-8mcqkbvbs-eliezerbrasilians-projects.vercel.app",
-        "https://food-facil-painel-admin.vercel.app"})
+        "https://food-facil-painel-admin.vercel.app," +
+                "https://foodfacil-website.vercel.app/"})
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/notificacao")
 public class NotificationController {
