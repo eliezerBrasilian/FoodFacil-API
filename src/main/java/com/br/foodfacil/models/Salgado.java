@@ -1,6 +1,5 @@
 package com.br.foodfacil.models;
 
-import com.br.foodfacil.dtos.SaborDto;
 import com.br.foodfacil.dtos.SalgadoRequestDto;
 import com.br.foodfacil.enums.Categoria;
 import com.br.foodfacil.enums.Disponibilidade;

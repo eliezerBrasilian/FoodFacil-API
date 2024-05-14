@@ -12,15 +12,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @EqualsAndHashCode(of = "id")
 @Document(collection = "sabores")
-public class Ingrediente {
+public class Sabor {
     @Id
     String id;
     String nome;
-    float preco;
     long createdAt;
     Disponibilidade disponibilidade;
 
-    public Ingrediente(SaborRequestDto saborRequestDto){
+    public Sabor(SaborRequestDto saborRequestDto){
         this.nome = saborRequestDto.nome();
         this.createdAt = saborRequestDto.createdAt();
         this.disponibilidade = saborRequestDto.disponibilidade();
