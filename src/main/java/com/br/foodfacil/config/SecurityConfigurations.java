@@ -38,7 +38,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.DELETE,AppUtils.baseUrl + "/salgado").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/notificacao").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/sabor").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,AppUtils.baseUrl + "/sabor").authenticated()
+                        .requestMatchers(HttpMethod.GET,AppUtils.baseUrl + "/sabor").permitAll()
                         .requestMatchers(HttpMethod.DELETE,AppUtils.baseUrl + "/sabor/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,AppUtils.baseUrl + "/sabor/{id}").hasRole("ADMIN")
                         .anyRequest().permitAll()
