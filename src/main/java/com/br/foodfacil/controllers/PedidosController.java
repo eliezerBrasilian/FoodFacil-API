@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = {"http://localhost:5173",
         "https://food-facil-painel-admin-8mcqkbvbs-eliezerbrasilians-projects.vercel.app",
-        "https://food-facil-painel-admin.vercel.app," +
-                "https://foodfacil-website.vercel.app"})
+        "https://food-facil-painel-admin.vercel.app", "https://foodfacil-website.vercel.app"})
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/pedido")
 public class PedidosController {
