@@ -2,6 +2,9 @@ package com.br.foodfacil.services;
 
 
 import com.br.foodfacil.dtos.*;
+import com.br.foodfacil.enums.Item;
+import com.br.foodfacil.enums.MensagemRetorno;
+import com.br.foodfacil.enums.TipoDePagamento;
 import com.br.foodfacil.models.Pedido;
 import com.br.foodfacil.records.Address;
 import com.br.foodfacil.records.PagamentoBody;
@@ -221,15 +224,23 @@ public class UserService {
             }
 
             var pedido = pedidoRepository.save(new Pedido(pedidoRequestDto));
-            var user = optionalUser.get();
-            var userData = new UserData(user.getId(), user.getEmail(), AppUtils.obtemPrimeiroNome(user.getName()));
-            var produtoData = new ProdutoData(pedido.getId(), "salgado","salgado",String.valueOf(pedidoRequestDto.total()));
 
-            var pagamentoBody = new PagamentoBody(userData, produtoData);
+            if(pedidoRequestDto.pagamentoEscolhido() == TipoDePagamento.PIX){
+                var user = optionalUser.get();
+                var userData = new UserData(user.getId(), user.getEmail(), AppUtils.obtemPrimeiroNome(user.getName()));
+                var produtoData = new ProdutoData(pedido.getId(), "salgado","salgado",String.valueOf(pedidoRequestDto.total()));
 
-            System.out.println(pagamentoBody);
+                var pagamentoBody = new PagamentoBody(userData, produtoData);
 
-            return pagamentoService.geraPix(pagamentoBody);
+                System.out.println(pagamentoBody);
+
+                return pagamentoService.geraPix(pagamentoBody);
+            }
+
+            else{
+                return new AppUtils().AppCustomJson(MensagemRetorno.ADICIONADO_COM_SUCESSO, Item.PEDIDO);
+            }
+
 
         }catch (Exception e){
             throw new RuntimeException("erro ao salvar pedido devido a uma excessao: "+e.getMessage());
