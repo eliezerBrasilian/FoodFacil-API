@@ -35,8 +35,9 @@ public class Pedido {
     private long createdAt;
     private PedidoStatus status;
     private PagamentoStatus pagamentoStatus;
+    private String chavePix;
 
-    public Pedido(PedidoRequestDto pedidoRequestDto){
+    public Pedido(PedidoRequestDto pedidoRequestDto, String chavePix){
         this.userId = pedidoRequestDto.userId();
         this.salgados = pedidoRequestDto.salgados();
         this.acompanhamentos = pedidoRequestDto.acompanhamentos();
@@ -49,5 +50,6 @@ public class Pedido {
         this.createdAt = pedidoRequestDto.createdAt();
         this.status = pedidoRequestDto.status();
         this.pagamentoStatus = pedidoRequestDto.pagamentoStatus();
+        this.chavePix = chavePix;
     }
 }

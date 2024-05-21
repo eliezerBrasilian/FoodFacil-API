@@ -57,7 +57,7 @@ public class UserController {
         return userService.getCupoms(userId);
     }
 
-    @PostMapping("/pedido")
+    @PostMapping("pedido")
     ResponseEntity<Object> criaPedido(@RequestBody PedidoRequestDto pedidoRequestDto){
         System.out.println("-----------pedidoRequestDto");
         System.out.println(pedidoRequestDto);

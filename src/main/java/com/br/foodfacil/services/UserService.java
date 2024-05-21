@@ -12,6 +12,7 @@ import com.br.foodfacil.records.ProdutoData;
 import com.br.foodfacil.records.UserData;
 import com.br.foodfacil.repositories.*;
 import com.br.foodfacil.utils.AppUtils;
+import com.br.foodfacil.utils.GeraChavePix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -223,7 +224,8 @@ public class UserService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message","usuario que tentou fazer o pedido não existe no banco de dados"));
             }
 
-            var pedido = pedidoRepository.save(new Pedido(pedidoRequestDto));
+            var chavePix = "";
+            var pedido = pedidoRepository.save(new Pedido(pedidoRequestDto,chavePix));
 
             if(pedidoRequestDto.pagamentoEscolhido() == TipoDePagamento.PIX){
                 var user = optionalUser.get();
@@ -234,7 +236,11 @@ public class UserService {
 
                 System.out.println(pagamentoBody);
 
-                return pagamentoService.geraPix(pagamentoBody);
+                chavePix = new GeraChavePix().generate(pagamentoBody).qrcode();
+                pedido.setChavePix(chavePix);
+                pedidoRepository.save(pedido);
+
+                return ResponseEntity.ok().body(chavePix);
             }
 
             else{

@@ -17,6 +17,7 @@ public class AppUtils {
     public static final String TESTE_ACCESS_TOKEN = "TEST-6242384253176670-042012-f47b1f59150e364b0788afa9cfdd23a5-618365626";
 
     public ResponseEntity<Object> AppCustomJson(MensagemRetorno mensagemRetorno, Item item){
+
         return switch (mensagemRetorno) {
             case ITEM_NAO_EXISTE ->
                     ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", item.toString() + " nao existe"));
@@ -24,7 +25,7 @@ public class AppUtils {
                     ResponseEntity.ok().body(Map.of("message", item.toString() + " excluido com sucesso"));
             case EDITADO_COM_SUCESSO ->
                     ResponseEntity.ok().body(Map.of("message", item.toString() + " atualizado com sucesso no banco de dados"));
-            default -> ResponseEntity.ok().body("");
+            default -> ResponseEntity.ok().body(Map.of("message", "sucesso ao adicionar"));
         };
     }
 
