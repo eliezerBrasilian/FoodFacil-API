@@ -31,6 +31,7 @@ public class PedidosController {
     @DeleteMapping("/{id}")
     ResponseEntity<Object> apaga(
             @PathVariable String id){
+        System.out.println("id do pedido: " + id);
         return  pedidosService.exclui(id);
     }
 

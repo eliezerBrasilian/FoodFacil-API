@@ -250,7 +250,7 @@ public class PedidosService {
         }
 
         try{
-            salgadoRepository.deleteById(id);
+            pedidoRepository.deleteById(id);
             return new AppUtils().AppCustomJson(MensagemRetorno.EXCLUIDO_COM_SUCESSO, Item.PEDIDO);
         }catch (RuntimeException e){
             throw new RuntimeException(AppUtils.CustomMensagemExcessao(MensagemRetorno.FALHA_AO_DELETAR,e.getMessage()));
