@@ -1,14 +1,13 @@
 package com.br.foodfacil.services;
 
 import com.br.foodfacil.dtos.*;
-import com.br.foodfacil.enums.PagamentoStatus;
-import com.br.foodfacil.enums.PedidoStatus;
-import com.br.foodfacil.enums.Plataforma;
+import com.br.foodfacil.enums.*;
 import com.br.foodfacil.records.Address;
 import com.br.foodfacil.repositories.AcompanhamentoRepository;
 import com.br.foodfacil.repositories.PedidoRepository;
 import com.br.foodfacil.repositories.SalgadoRepository;
 import com.br.foodfacil.repositories.UserRepository;
+import com.br.foodfacil.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -240,6 +239,21 @@ public class PedidosService {
             return ResponseEntity.ok().body(data);
         }catch (RuntimeException e){
             throw new RuntimeException("falha ao trazer pedidos devido a uma excessao: "+e.getMessage());
+        }
+    }
+
+    public ResponseEntity<Object> exclui(String id){
+        var optionalSalgado = pedidoRepository.findById(id);
+
+        if(optionalSalgado.isEmpty()){
+            return new AppUtils().AppCustomJson(MensagemRetorno.ITEM_NAO_EXISTE, Item.PEDIDO);
+        }
+
+        try{
+            salgadoRepository.deleteById(id);
+            return new AppUtils().AppCustomJson(MensagemRetorno.EXCLUIDO_COM_SUCESSO, Item.PEDIDO);
+        }catch (RuntimeException e){
+            throw new RuntimeException(AppUtils.CustomMensagemExcessao(MensagemRetorno.FALHA_AO_DELETAR,e.getMessage()));
         }
     }
 }

@@ -28,4 +28,10 @@ public class PedidosController {
         return  pedidosService.editaStatus(pedidoRequestEditDto, id);
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<Object> apaga(
+            @PathVariable String id){
+        return  pedidosService.exclui(id);
+    }
+
 }
