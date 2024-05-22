@@ -2,7 +2,6 @@ package com.br.foodfacil.dtos;
 
 import com.br.foodfacil.enums.PagamentoStatus;
 import com.br.foodfacil.enums.PedidoStatus;
-import com.br.foodfacil.enums.Plataforma;
 import com.br.foodfacil.enums.TipoDePagamento;
 import com.br.foodfacil.records.Address;
 
@@ -19,7 +18,7 @@ public record PedidoDoUsuarioResponseDto(
         float total,
         long createdAt,
         PedidoStatus status,
-        PagamentoStatus pagamentoStatus
-) {
+        PagamentoStatus pagamentoStatus,
+        String chavePix) {
 };
 

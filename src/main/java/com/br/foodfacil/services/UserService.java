@@ -334,7 +334,8 @@ public class UserService {
                         pedido.getTotal(),
                         pedido.getCreatedAt(),
                         pedido.getStatus(),
-                        pedido.getPagamentoStatus()
+                        pedido.getPagamentoStatus(),
+                        pedido.getChavePix()
                 );
                 pedidosResponse.add(newPedido);
             });
