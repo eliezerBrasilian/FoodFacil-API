@@ -339,8 +339,7 @@ public class UserService {
                 pedidosResponse.add(newPedido);
             });
 
-            return ResponseEntity.ok().body(Map.of("message","sucesso",
-                    "lista",pedidosResponse));
+            return ResponseEntity.ok().body(pedidosResponse);
         }catch (RuntimeException e){
             throw new RuntimeException("excessao ocorreu ao tentar buscar os pedidos do usuario: " + e.getMessage());
         }
