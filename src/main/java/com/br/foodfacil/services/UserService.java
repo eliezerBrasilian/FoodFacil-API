@@ -264,10 +264,12 @@ public class UserService {
             var pedidos = pedidoRepository.findByUserId(userId);
 
             var pedidosResponse = new ArrayList<PedidoDoUsuarioResponseDto>();
-            var salgadosResumidos = new ArrayList<SalgadoResumidoResponseDto>();
-            var acompanhamentosResumidos = new ArrayList<AcompanhamentoResumidoResponseDto>();
+
 
             pedidos.forEach(pedido->{
+                var salgadosResumidos = new ArrayList<SalgadoResumidoResponseDto>();
+                var acompanhamentosResumidos = new ArrayList<AcompanhamentoResumidoResponseDto>();
+
                 var salgados = pedido.getSalgados();
                 salgados.forEach(s->{
                     var salgadoId = s.id();
@@ -338,6 +340,7 @@ public class UserService {
                         pedido.getChavePix()
                 );
                 pedidosResponse.add(newPedido);
+
             });
 
             return ResponseEntity.ok().body(pedidosResponse);

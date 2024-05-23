@@ -9,5 +9,6 @@ public record SalgadoResumidoResponseDto
                 String imagem,
                 float preco,
                 String observacao,
-                int quantidade, List<String> sabores) {
+                int quantidade,
+                List<String> sabores) {
 }
