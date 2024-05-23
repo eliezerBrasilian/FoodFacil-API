@@ -19,6 +19,8 @@ public record PedidoDoUsuarioResponseDto(
         long createdAt,
         PedidoStatus status,
         PagamentoStatus pagamentoStatus,
-        String chavePix) {
+        String chavePix,
+        float taxa
+        ) {
 };
 

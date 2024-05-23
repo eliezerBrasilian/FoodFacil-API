@@ -21,8 +21,9 @@ public record PedidoRequestDto(
         Plataforma plataforma,
         String dispositivoToken,
         float total,
-        long createdAt,
         PedidoStatus status,
-        PagamentoStatus pagamentoStatus
+        PagamentoStatus pagamentoStatus,
+        float taxa,
+        long createdAt
 ) {
 }

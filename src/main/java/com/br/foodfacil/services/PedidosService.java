@@ -112,7 +112,8 @@ public class PedidosService {
                             pedido.getCreatedAt(),
                             pedido.getStatus(),
                             pedido.getPagamentoStatus(),
-                            pedido.getChavePix()
+                            pedido.getChavePix(),
+                            pedido.getTaxa()
                     );
 
 
@@ -137,6 +138,7 @@ public class PedidosService {
             var pedidoEncontrado = optionalPedido.get();
             pedidoEncontrado.setPagamentoStatus(PagamentoStatus.PAGAMENTO_APROVADO);
             pedidoEncontrado.setStatus(PedidoStatus.AGUARDANDO_PREPARO);
+            pedidoEncontrado.setPayedAt(System.currentTimeMillis());
             pedidoRepository.save(pedidoEncontrado);
 
             var dispositivoToken = pedidoEncontrado.getDispositivoToken();

@@ -32,10 +32,12 @@ public class Pedido {
     private Plataforma plataforma;
     private String dispositivoToken;
     private float total;
-    private long createdAt;
     private PedidoStatus status;
     private PagamentoStatus pagamentoStatus;
     private String chavePix;
+    private float taxa;
+    private long createdAt;
+    private long payedAt;
 
     public Pedido(PedidoRequestDto pedidoRequestDto, String chavePix){
         this.userId = pedidoRequestDto.userId();
@@ -51,5 +53,7 @@ public class Pedido {
         this.status = pedidoRequestDto.status();
         this.pagamentoStatus = pedidoRequestDto.pagamentoStatus();
         this.chavePix = chavePix;
+        this.taxa = pedidoRequestDto.taxa();
+        this.payedAt = -1;
     }
 }
