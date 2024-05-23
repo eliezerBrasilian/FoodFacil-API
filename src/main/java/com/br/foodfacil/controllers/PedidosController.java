@@ -28,6 +28,13 @@ public class PedidosController {
         return  pedidosService.editaStatus(pedidoRequestEditDto, id);
     }
 
+    @GetMapping("/{id}")
+    ResponseEntity<Object> buscaPedido(
+        @PathVariable String id
+    ){
+        return pedidosService.buscaPedido(id);
+    }
+
     @DeleteMapping("/{id}")
     ResponseEntity<Object> apaga(
             @PathVariable String id){
