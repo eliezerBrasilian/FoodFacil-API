@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PedidoRepository extends MongoRepository<Pedido, String> {
     List<Pedido> findByUserId(String compradorId);
+    List<Pedido> findByUserIdOrderByCreatedAtDesc(String userId);
 }

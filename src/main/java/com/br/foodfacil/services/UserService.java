@@ -261,7 +261,7 @@ public class UserService {
         }
 
         try {
-            var pedidos = pedidoRepository.findByUserId(userId);
+            var pedidos = pedidoRepository.findByUserIdOrderByCreatedAtDesc(userId);
 
             var pedidosResponse = new ArrayList<PedidoDoUsuarioResponseDto>();
 
