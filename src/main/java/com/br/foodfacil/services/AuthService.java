@@ -1,4 +1,5 @@
 package com.br.foodfacil.services;
+import com.br.foodfacil.dtos.AuthResponseDto;
 import com.br.foodfacil.dtos.LoginAuthDTO;
 import com.br.foodfacil.dtos.AuthRequestDto;
 import com.br.foodfacil.models.User;
@@ -74,23 +75,14 @@ public class AuthService implements UserDetailsService {
             var token = tokenService.generateToken(user);
             //var token = tokenService.generateToken((User) auth.getPrincipal());
 
-            return ResponseEntity.ok().body(
-                    new HashMap<>()
-                    {{
-                        put("message", "logado com sucesso");
-                        put("token", token);
-                        put("userId", user.getId());
-                        put("profilePicture", user.getProfilePicture() == null? "" : user.getProfilePicture());
-                        put("name", user.getName());
-                    }}
-            );
+            return ResponseEntity.ok().body(new AuthResponseDto(token, user.getId(), user.getProfilePicture(),
+                    user.getName(), data.email(), user.getCreatedAt()));
         }catch (RuntimeException e){
             System.out.println("tentativa de login fracassou");
             System.out.println(Map.of(
                     "message",e.getMessage()));
 
-            return ResponseEntity.badRequest().body(Map.of(
-                    "message",e.getMessage()));
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -106,7 +98,6 @@ public class AuthService implements UserDetailsService {
 
         try{
             var newUser = new User(authRequestDto);
-            newUser.setCreatedAt(new Date(System.currentTimeMillis()));
             newUser.setCupoms(Collections.emptyList());
             newUser.setAmountOfCouponsCollected(0);
             newUser.setMoneySpentTotal((double) 0);
@@ -118,13 +109,14 @@ public class AuthService implements UserDetailsService {
 
             var token = tokenService.generateToken(newUser);
 
-            // Return token along with success response
-            return ResponseEntity.ok(Map.of("message", "User registered successfully",
-                    "token", token,"userId", savedUser.getId()));
-        }catch (Exception e){
-            return ResponseEntity.internalServerError().body(
-                    Map.of("message", e.getMessage(), "cause", e.getCause())
-            );
+            return ResponseEntity.ok().body(new AuthResponseDto(
+                    token,savedUser.getId(),savedUser.getProfilePicture(), savedUser.getName(),
+                    authRequestDto.email(),
+                    savedUser.getCreatedAt()
+            ));
+
+        }catch (RuntimeException e){
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -142,14 +134,9 @@ public class AuthService implements UserDetailsService {
                 var token = tokenService.generateToken(user);
                 System.out.println("userFounded: " + user.getName());
 
-                var data = Map.of("message", "usuario logado com sucesso",
-                        "token", token,
-                        "userId", user.getId(),
-                        "profilePicture", user.getProfilePicture() == null? "" : user.getProfilePicture(),
-                        "name", user.getName()
-                );
+                return ResponseEntity.ok().body(new AuthResponseDto(token, user.getId(), user.getProfilePicture(),
+                        user.getName(),user.getEmail() , user.getCreatedAt()));
 
-                return ResponseEntity.ok(data);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 if (Objects.equals(e.getMessage(), "Bad credentials")) {
@@ -164,28 +151,21 @@ public class AuthService implements UserDetailsService {
             //String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
 
             var newUser = new User(authRequestDto);
-            newUser.setCreatedAt(new Date(System.currentTimeMillis()));
+            newUser.setCreatedAt(System.currentTimeMillis());
             try{
                 var userSalvo = this.userRepository.save(newUser);
                 System.out.println("userSalvo: ");
                 System.out.println(userSalvo);
                 var token = tokenService.generateToken(newUser);
 
-                var data = new HashMap<>(
-                        Map.of("message", "usuario criado com sucesso",
-                        "token",token,
-                        "userUid", userSalvo.getId(),
-                        "name", userSalvo.getName()
+                return ResponseEntity.ok().body(new AuthResponseDto(
+                        token,userSalvo.getId(),userSalvo.getProfilePicture(), userSalvo.getName(),userSalvo.getEmail(), userSalvo.getCreatedAt()
                 ));
 
-                if(userSalvo.getProfilePicture() != null)data.put("profilePicture", userSalvo.getProfilePicture());
-
-                // Return token along with success response
-                return ResponseEntity.ok(data);
-            }catch (Exception e){
+            }catch (RuntimeException e){
                 System.out.println("falha ao salvar o usario");
                 e.printStackTrace();
-                return ResponseEntity.badRequest().body("falha ao salvar o usario");
+                throw new RuntimeException(e.getMessage());
             }
         }
     }

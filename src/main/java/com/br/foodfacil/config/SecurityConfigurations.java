@@ -40,6 +40,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/sabor").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,AppUtils.baseUrl + "/sabor/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,AppUtils.baseUrl + "/sabor/{id}").hasRole("ADMIN")
+                        //.requestMatchers(HttpMethod.POST,AppUtils.baseUrl + "/online/cria").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

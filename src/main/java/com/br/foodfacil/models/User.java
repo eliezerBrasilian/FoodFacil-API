@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String password;
     private UserRole userRole;
     private String profilePicture;
-    private Date createdAt;
+    private long createdAt;
     private Date updatedAt;
     @Field("address")
     private Address address;
@@ -47,6 +47,7 @@ public class User implements UserDetails {
         this.userRole = authRequestDto.role();
         this.name = authRequestDto.name();
         this.profilePicture = authRequestDto.profilePicture();
+        this.createdAt = System.currentTimeMillis();
     }
 
     @Override
