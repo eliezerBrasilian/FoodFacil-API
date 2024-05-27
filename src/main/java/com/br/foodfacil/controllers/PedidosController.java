@@ -46,4 +46,8 @@ public class PedidosController {
         return  pedidoServiceImpl.exclui(id);
     }
 
+    @DeleteMapping()
+    ResponseEntity<Object> deleteAll(){
+        return pedidoServiceImpl.deleteAll();
+    }
 }
