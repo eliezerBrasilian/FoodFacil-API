@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:5173",
-        "https://food-facil-painel-admin-8mcqkbvbs-eliezerbrasilians-projects.vercel.app",
-        "https://food-facil-painel-admin.vercel.app",
-                "https://foodfacil-website.vercel.app"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://food-facil-painel-admin-8mcqkbvbs-eliezerbrasilians-projects.vercel.app", "https://food-facil-painel-admin.vercel.app", "https://foodfacil-website.vercel.app"})
 
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/user")
@@ -21,18 +18,17 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/token-dispositivo")
-    public ResponseEntity<Object> salvaOuAtualizaToken(@Valid @RequestBody TokenDoDispositivoRequestDto tokenDoDispositivoRequestDto){
+    public ResponseEntity<Object> salvaOuAtualizaToken(@Valid @RequestBody TokenDoDispositivoRequestDto tokenDoDispositivoRequestDto) {
         return userService.salvaOuAtualizaToken(tokenDoDispositivoRequestDto);
     }
 
     @PostMapping("update-photo")
-    ResponseEntity<Object> updatePhoto(@RequestBody ProfilePhotoDto profilePhotoDto){
+    ResponseEntity<Object> updatePhoto(@RequestBody ProfilePhotoDto profilePhotoDto) {
         return userService.updatePhoto(profilePhotoDto);
     }
 
     @PostMapping("address/update/{userId}")
-    ResponseEntity<Object> updateAddress(@RequestBody Address address,
-                                         @PathVariable String userId){
+    ResponseEntity<Object> updateAddress(@RequestBody Address address, @PathVariable String userId) {
         System.out.println("address");
         System.out.println(address);
         System.out.println(userId);
@@ -47,25 +43,25 @@ public class UserController {
     }
 
     @PostMapping("cupom/use")
-    ResponseEntity<Object> useCupom(@RequestBody CupomToUpdateDto cupomToUpdateDto){
+    ResponseEntity<Object> useCupom(@RequestBody CupomToUpdateDto cupomToUpdateDto) {
 
         return userService.usarCupom(cupomToUpdateDto);
     }
 
     @GetMapping("cupoms/{userId}")
-    ResponseEntity<Object> getCupoms(@PathVariable String userId){
+    ResponseEntity<Object> getCupoms(@PathVariable String userId) {
         return userService.getCupoms(userId);
     }
 
     @PostMapping("pedido")
-    ResponseEntity<Object> criaPedido(@RequestBody PedidoRequestDto pedidoRequestDto){
+    ResponseEntity<Object> criaPedido(@RequestBody PedidoRequestDto pedidoRequestDto) {
         System.out.println("-----------pedidoRequestDto");
         System.out.println(pedidoRequestDto);
         return userService.registraPedido(pedidoRequestDto);
     }
 
     @GetMapping("pedidos/{userId}")
-    ResponseEntity<Object> getPedidos(@PathVariable String userId){
+    ResponseEntity<Object> getPedidos(@PathVariable String userId) {
         return userService.getPedidos(userId);
     }
 

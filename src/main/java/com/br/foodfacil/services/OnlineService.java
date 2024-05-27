@@ -1,71 +1,16 @@
 package com.br.foodfacil.services;
 
-import com.br.foodfacil.enums.OnlineStatus;
-import com.br.foodfacil.models.Online;
-import com.br.foodfacil.repositories.OnlineRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Map;
 
-@Service
-public class OnlineService {
-    @Autowired
-    OnlineRepository onlineRepository;
+public interface OnlineService {
+    ResponseEntity<Object> consultaOnline(@PathVariable String id);
 
-    public ResponseEntity<Object> criaOnline(){
-        try{
-            var onlineModel = new Online();
-            onlineModel.setOnlineStatus(OnlineStatus.ONLINE);
-            var or = onlineRepository.save(onlineModel);
-            return ResponseEntity.ok().body(Map.of("id_online",or.getId()));
-        }catch (RuntimeException e){
-            throw new RuntimeException(e.getMessage());
-        }
+    ResponseEntity<Object> desativaOnline(@PathVariable String id);
 
-    }
+    ResponseEntity<Object> ativaOnline(@PathVariable String id);
 
-    public ResponseEntity<Object> ativaOnline(String id){
-        try{
-            var optionalOnline = onlineRepository.findById(id);
-            if(optionalOnline.isEmpty()){
-                return ResponseEntity.badRequest().body("id_online nao existe");
-            }
-            var online = optionalOnline.get();
-            online.setOnlineStatus(OnlineStatus.ONLINE);
-            onlineRepository.save(online);
-            return ResponseEntity.ok().body("sucesso, ativado com sucesso");
-        }catch (RuntimeException e){
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public ResponseEntity<Object> desativaOnline(String id){
-        try{
-            var optionalOnline = onlineRepository.findById(id);
-            if(optionalOnline.isEmpty()){
-                return ResponseEntity.badRequest().body("id_online nao existe");
-            }
-            var online = optionalOnline.get();
-            online.setOnlineStatus(OnlineStatus.OFFLINE);
-            onlineRepository.save(online);
-            return ResponseEntity.ok().body("sucesso, desativado com sucesso");
-        }catch (RuntimeException e){
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public ResponseEntity<Object> consultaOnline(String id){
-        try{
-            var optionalOnline = onlineRepository.findById(id);
-            if(optionalOnline.isEmpty()){
-                return ResponseEntity.badRequest().body("id_online nao existe");
-            }
-            var online = optionalOnline.get();
-            return ResponseEntity.ok().body(online.getOnlineStatus());
-        }catch (RuntimeException e){
-            throw new RuntimeException(e.getMessage());
-        }
-    }
+    ResponseEntity<Object> criaOnline();
 }

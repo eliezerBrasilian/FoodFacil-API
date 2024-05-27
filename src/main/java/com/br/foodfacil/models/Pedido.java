@@ -1,6 +1,8 @@
 package com.br.foodfacil.models;
 
+import com.br.foodfacil.dtos.AcompanhamentoRequestDto;
 import com.br.foodfacil.dtos.PedidoRequestDto;
+import com.br.foodfacil.dtos.SalgadoRequestDto;
 import com.br.foodfacil.enums.PagamentoStatus;
 import com.br.foodfacil.enums.PedidoStatus;
 import com.br.foodfacil.enums.Plataforma;
@@ -24,8 +26,8 @@ public class Pedido {
     @Id
     private String id;
     private String userId;
-    private List<SimplesSalgado> salgados;
-    private List<SimplesAdicional> acompanhamentos;
+    private List<SalgadoRequestDto> salgados;
+    private List<AcompanhamentoRequestDto> acompanhamentos;
     private Address endereco;
     TipoDePagamento pagamentoEscolhido;
     float quantiaReservada;

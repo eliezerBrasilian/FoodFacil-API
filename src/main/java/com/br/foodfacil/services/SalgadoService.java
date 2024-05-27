@@ -85,6 +85,7 @@ public class SalgadoService {
             salgadoEncontrado.setSabores(salgadoRequestEditDto.sabores());
             salgadoEncontrado.setDisponibilidade(salgadoRequestEditDto.disponibilidade());
 
+            salgadoRepository.save(salgadoEncontrado);
             return new AppUtils().AppCustomJson(MensagemRetorno.EDITADO_COM_SUCESSO, Item.SALGADO);
         }catch (RuntimeException e){
             throw new RuntimeException(AppUtils.CustomMensagemExcessao(MensagemRetorno.FALHA_AO_EDITAR,e.getMessage()));

@@ -9,6 +9,7 @@ public record AcompanhamentoRequestDto(
         @NotNull String descricao,
         @NotNull float preco,
         @NotNull Disponibilidade disponibilidade,
+        int quantidade,
         @NotNull long createdAt
 ) {
 }

@@ -4,6 +4,7 @@ package com.br.foodfacil.services;
 import com.br.foodfacil.dtos.MercadoPagoNotificacaoRequestDto;
 import com.br.foodfacil.dtos.PagamentoResponseDto;
 import com.br.foodfacil.records.PagamentoBody;
+import com.br.foodfacil.services.impl.PedidoServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
 import com.br.foodfacil.utils.GeraChavePix;
 import com.mercadopago.MercadoPagoConfig;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class PagamentoService {
 
     @Autowired
-    PedidosService pedidosService;
+    PedidoServiceImpl pedidoServiceImpl;
 
     public ResponseEntity<Object> geraPix(PagamentoBody pagamentoBody){
         var chavePix = new GeraChavePix().generate(pagamentoBody);
@@ -89,7 +90,7 @@ public class PagamentoService {
 
                 if(Objects.equals(pagamentoEncontrado.getStatus(), "approved")){
                     System.out.println("pagamento foi aprovado, agora vamos para implementação confirmaPagamento()");
-                    pedidosService.confirmaPagamento(pedidoId);
+                    pedidoServiceImpl.confirmaPagamento(pedidoId);
                 }
 
                 return ResponseEntity.ok().body(pagamentoResposta);

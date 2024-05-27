@@ -10,8 +10,8 @@ import java.util.List;
 public record PedidoDoUsuarioResponseDto(
         String id,
         String userId,
-        List<SalgadoResumidoResponseDto> salgados,
-        List<AcompanhamentoResumidoResponseDto> acompanhamentos,
+        List<SalgadoRequestDto> salgados,
+        List<AcompanhamentoRequestDto> acompanhamentos,
         Address endereco,
         TipoDePagamento pagamentoEscolhido,
         float quantiaReservada,

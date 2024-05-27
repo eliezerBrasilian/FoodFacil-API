@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record SalgadoRequestDto(
+        String id,
         @NotNull String nome,
         @NotNull Categoria categoria,
         @NotNull String descricao,
@@ -18,6 +19,8 @@ public record SalgadoRequestDto(
         @NotNull float precoEmOferta,
         @NotNull Disponibilidade disponibilidade,
         @NotNull long createdAt,
+        String observacao,
+        int quantidade,
         List<String> sabores
 ) {
 }
