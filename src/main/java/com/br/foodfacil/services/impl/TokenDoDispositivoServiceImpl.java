@@ -1,4 +1,4 @@
-package com.br.foodfacil.services;
+package com.br.foodfacil.services.impl;
 
 import com.br.foodfacil.dtos.TokenDoDispositivoRequestDto;
 import com.br.foodfacil.models.TokenDoDIspositivo;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class TokenDoDispositivoService {
+public class TokenDoDispositivoServiceImpl {
     @Autowired
     TokenDoDispositivoRepository tokenDoDispositivoRepository;
 

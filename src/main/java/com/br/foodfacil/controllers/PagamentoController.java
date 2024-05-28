@@ -4,8 +4,9 @@ import com.br.foodfacil.dtos.MercadoPagoNotificacaoRequestDto;
 import com.br.foodfacil.dtos.NotificationDTO;
 import com.br.foodfacil.records.PagamentoBody;
 import com.br.foodfacil.dtos.PaymentReceiverDto;
+import com.br.foodfacil.records.QrCode;
 import com.br.foodfacil.services.NotificationService;
-import com.br.foodfacil.services.PagamentoService;
+import com.br.foodfacil.services.impl.PixPaymentGatewayImpl;
 import com.br.foodfacil.utils.AppUtils;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
@@ -25,7 +26,7 @@ public class PagamentoController {
     NotificationService notificationService;
 
     @Autowired
-    PagamentoService pagamentoService;
+    PixPaymentGatewayImpl pagamentoServiceImpl;
 
     @PostMapping()
     public String makePayment(@RequestBody PaymentReceiverDto paymentReceiverDto) {
@@ -49,11 +50,11 @@ public class PagamentoController {
     }
 
     @PostMapping("pix")
-    ResponseEntity<Object> pagamentoPix(@RequestBody PagamentoBody pagamentoBody) throws MPException, MPApiException {
+    ResponseEntity<QrCode> pagamentoPix(@RequestBody PagamentoBody pagamentoBody) throws MPException, MPApiException {
         System.out.println(pagamentoBody);
 
         //return ResponseEntity.ok().body(pagamentoBody);
-        return  pagamentoService.geraPix(pagamentoBody);
+        return  pagamentoServiceImpl.generatePixKey(pagamentoBody);
     }
 
     @PostMapping("mercadopago/notificacao")
@@ -62,6 +63,6 @@ public class PagamentoController {
         System.out.println("recebido");
         System.out.println(mercadoPagoNotificacaoRequestDto);
 
-        return pagamentoService.checaPagamento(mercadoPagoNotificacaoRequestDto);
+        return pagamentoServiceImpl.checkPaymentStatus(mercadoPagoNotificacaoRequestDto);
     }
 }

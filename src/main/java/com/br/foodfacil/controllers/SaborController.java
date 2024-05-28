@@ -2,7 +2,7 @@ package com.br.foodfacil.controllers;
 
 import com.br.foodfacil.dtos.SaborRequestDto;
 import com.br.foodfacil.dtos.SaborRequestEditDto;
-import com.br.foodfacil.services.SaborService;
+import com.br.foodfacil.services.impl.SaborServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(AppUtils.baseUrl + "/sabor")
 public class SaborController {
     @Autowired
-    SaborService saborService;
+    SaborServiceImpl saborServiceImpl;
 
     @PostMapping
     ResponseEntity<Object> registrar(@Valid @RequestBody SaborRequestDto saborRequestDto){
-        return saborService.registrar(saborRequestDto);
+        return saborServiceImpl.registrar(saborRequestDto);
     }
 
     @PutMapping("/{id}")
@@ -33,18 +33,18 @@ public class SaborController {
             @PathVariable String id,
             @RequestBody SaborRequestEditDto saborRequestEditDto){
 
-        return saborService.editar(saborRequestEditDto, id);
+        return saborServiceImpl.editar(saborRequestEditDto, id);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Object> excluiSalgado(
             @PathVariable String id){
 
-        return saborService.excluir(id);
+        return saborServiceImpl.excluir(id);
     }
 
     @GetMapping
     ResponseEntity<Object> getAll(){
-        return saborService.listaTodos();
+        return saborServiceImpl.getAll();
     }
 }

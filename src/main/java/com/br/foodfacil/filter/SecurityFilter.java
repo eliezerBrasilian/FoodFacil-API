@@ -1,7 +1,7 @@
 package com.br.foodfacil.filter;
 
 import com.br.foodfacil.repositories.UserRepository;
-import com.br.foodfacil.services.TokenService;
+import com.br.foodfacil.services.impl.TokenServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,7 +17,7 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
-    TokenService tokenService;
+    TokenServiceImpl tokenServiceImpl;
 
     @Autowired
     UserRepository userRepository;
@@ -30,7 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
 
         if (token != null) {
-            var email = tokenService.validateToken(token);
+            var email = tokenServiceImpl.validateToken(token);
             var userModelOptional = userRepository.findByEmail(email);
 
             if(userModelOptional.isPresent()){

@@ -2,7 +2,7 @@ package com.br.foodfacil.controllers;
 
 import com.br.foodfacil.dtos.LoginAuthDTO;
 import com.br.foodfacil.dtos.AuthRequestDto;
-import com.br.foodfacil.services.AuthService;
+import com.br.foodfacil.services.impl.AuthService;
 import com.br.foodfacil.utils.AppUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

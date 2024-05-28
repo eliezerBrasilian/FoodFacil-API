@@ -2,8 +2,9 @@ package com.br.foodfacil.controllers;
 
 import com.br.foodfacil.dtos.NotificacaoRequestDTO;
 import com.br.foodfacil.dtos.NotificationDTO;
+import com.br.foodfacil.services.IngredienteService;
 import com.br.foodfacil.services.NotificationService;
-import com.br.foodfacil.services.TokenDoDispositivoService;
+import com.br.foodfacil.services.impl.TokenDoDispositivoServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -30,11 +31,11 @@ public class NotificationController {
     NotificationService notificationService;
 
     @Autowired
-    TokenDoDispositivoService tokenDoDispositivoService;
+    TokenDoDispositivoServiceImpl tokenDoDispositivoServiceImpl;
 
     @GetMapping("/tokens-salvos-de-celular")
     public ResponseEntity<Object> getAllTokensDeCelular(){
-        return tokenDoDispositivoService.getAll();
+        return tokenDoDispositivoServiceImpl.getAll();
     }
 
     @DeleteMapping("/tokens-salvos-de-celular/{id}")

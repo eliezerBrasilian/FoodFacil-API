@@ -1,4 +1,4 @@
-package com.br.foodfacil.services;
+package com.br.foodfacil.services.impl;
 
 
 import com.auth0.jwt.JWT;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
-public class TokenService {
+public class TokenServiceImpl {
 
     private String secret = "segredinho";
 

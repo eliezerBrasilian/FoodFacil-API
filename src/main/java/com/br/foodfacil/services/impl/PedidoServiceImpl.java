@@ -2,24 +2,23 @@ package com.br.foodfacil.services.impl;
 
 import com.br.foodfacil.dtos.*;
 import com.br.foodfacil.enums.*;
-import com.br.foodfacil.records.Address;
 import com.br.foodfacil.repositories.AcompanhamentoRepository;
 import com.br.foodfacil.repositories.PedidoRepository;
 import com.br.foodfacil.repositories.SalgadoRepository;
 import com.br.foodfacil.repositories.UserRepository;
+import com.br.foodfacil.services.IngredienteService;
 import com.br.foodfacil.services.NotificationService;
+import com.br.foodfacil.services.PedidoService;
 import com.br.foodfacil.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 
 @Service
-public class PedidoServiceImpl {
+public class PedidoServiceImpl implements PedidoService {
     @Autowired
     PedidoRepository pedidoRepository;
 
@@ -35,6 +34,7 @@ public class PedidoServiceImpl {
     @Autowired
     NotificationService notificationService;
 
+    @Override
     public ResponseEntity<Object> buscaPedido(String id){
         try{
             var optionalPedido = pedidoRepository.findById(id);
@@ -66,7 +66,7 @@ public class PedidoServiceImpl {
             throw new RuntimeException("");
         }
     }
-
+    @Override
     public ResponseEntity<Object> confirmaPagamento(String id){
         var optionalPedido = pedidoRepository.findById(id);
 
@@ -108,7 +108,7 @@ public class PedidoServiceImpl {
             throw new RuntimeException("falha ao confirmar pagamento do pedido devido a uma excessao: "+e.getMessage());
         }
     }
-
+    @Override
     public ResponseEntity<Object> editaStatus(PedidoRequestEditDto pedidoRequestEditDto, String id){
 
         var optionalPedido = pedidoRepository.findById(id);
@@ -151,7 +151,7 @@ public class PedidoServiceImpl {
             throw new RuntimeException("falha ao editar pedido devido a uma excessao: "+e.getMessage());
         }
     }
-
+    @Override
     public ResponseEntity<Object> getAll(){
         try {
             var pedidos = pedidoRepository.findAll();
@@ -161,7 +161,7 @@ public class PedidoServiceImpl {
             throw new RuntimeException("falha ao trazer pedidos devido a uma excessao: "+e.getMessage());
         }
     }
-
+    @Override
     public ResponseEntity<Object> deleteAll(){
         try{
             pedidoRepository.deleteAll();
@@ -170,7 +170,7 @@ public class PedidoServiceImpl {
             throw new RuntimeException(AppUtils.CustomMensagemExcessao(MensagemRetorno.FALHA_AO_DELETAR,e.getMessage()));
         }
     }
-
+    @Override
     public ResponseEntity<Object> exclui(String id){
         var optionalSalgado = pedidoRepository.findById(id);
 

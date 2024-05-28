@@ -1,4 +1,4 @@
-package com.br.foodfacil.services;
+package com.br.foodfacil.services.impl;
 import com.br.foodfacil.dtos.AuthResponseDto;
 import com.br.foodfacil.dtos.LoginAuthDTO;
 import com.br.foodfacil.dtos.AuthRequestDto;
@@ -19,9 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.sql.Date;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,7 +34,7 @@ public class AuthService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private TokenService tokenService;
+    private TokenServiceImpl tokenServiceImpl;
 
     private AuthenticationManager authenticationManager;
 
@@ -72,7 +70,7 @@ public class AuthService implements UserDetailsService {
             var user = userOptioal.get();
             System.out.println(Map.of("user",user.getName()));
 
-            var token = tokenService.generateToken(user);
+            var token = tokenServiceImpl.generateToken(user);
             //var token = tokenService.generateToken((User) auth.getPrincipal());
 
             return ResponseEntity.ok().body(new AuthResponseDto(token, user.getId(), user.getProfilePicture(),
@@ -107,7 +105,7 @@ public class AuthService implements UserDetailsService {
 
             var savedUser = this.userRepository.save(newUser);
 
-            var token = tokenService.generateToken(newUser);
+            var token = tokenServiceImpl.generateToken(newUser);
 
             return ResponseEntity.ok().body(new AuthResponseDto(
                     token,savedUser.getId(),savedUser.getProfilePicture(), savedUser.getName(),
@@ -131,7 +129,7 @@ public class AuthService implements UserDetailsService {
 
                 var user = userFoundedOptional.get();
 
-                var token = tokenService.generateToken(user);
+                var token = tokenServiceImpl.generateToken(user);
                 System.out.println("userFounded: " + user.getName());
 
                 return ResponseEntity.ok().body(new AuthResponseDto(token, user.getId(), user.getProfilePicture(),
@@ -156,7 +154,7 @@ public class AuthService implements UserDetailsService {
                 var userSalvo = this.userRepository.save(newUser);
                 System.out.println("userSalvo: ");
                 System.out.println(userSalvo);
-                var token = tokenService.generateToken(newUser);
+                var token = tokenServiceImpl.generateToken(newUser);
 
                 return ResponseEntity.ok().body(new AuthResponseDto(
                         token,userSalvo.getId(),userSalvo.getProfilePicture(), userSalvo.getName(),userSalvo.getEmail(), userSalvo.getCreatedAt()

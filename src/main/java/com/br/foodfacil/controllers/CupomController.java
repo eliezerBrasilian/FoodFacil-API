@@ -1,7 +1,7 @@
 package com.br.foodfacil.controllers;
 
 import com.br.foodfacil.dtos.CupomDto;
-import com.br.foodfacil.services.CupomService;
+import com.br.foodfacil.services.impl.CupomServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.*;
 public class CupomController {
 
     @Autowired
-    CupomService cupomService;
+    CupomServiceImpl cupomServiceImpl;
 
     @PostMapping
     ResponseEntity<Object> registerCupom(@RequestBody CupomDto cupomDto){
-        return cupomService.registerCupom(cupomDto);
+        return cupomServiceImpl.registra(cupomDto);
     }
 
     @GetMapping("{cupomId}")
     ResponseEntity<Object> findCupom(@PathVariable String cupomId){
-        return cupomService.findCupom(cupomId);
+        return cupomServiceImpl.buscaCupom(cupomId);
     }
 
     @GetMapping()
     ResponseEntity<Object> getAll(){
-        return cupomService.getAll();
+        return cupomServiceImpl.getAll();
     }
 }

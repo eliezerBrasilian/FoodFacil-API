@@ -4,9 +4,7 @@ package com.br.foodfacil.services;
 import com.br.foodfacil.dtos.*;
 import com.br.foodfacil.records.Address;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
-@Service
 public interface UserService {
     ResponseEntity<Object> updatePhoto(ProfilePhotoDto profilePhotoDto);
 

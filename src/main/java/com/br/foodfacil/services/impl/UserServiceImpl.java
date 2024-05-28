@@ -10,8 +10,7 @@ import com.br.foodfacil.records.PagamentoBody;
 import com.br.foodfacil.records.ProdutoData;
 import com.br.foodfacil.records.UserData;
 import com.br.foodfacil.repositories.*;
-import com.br.foodfacil.services.PagamentoService;
-import com.br.foodfacil.services.TokenDoDispositivoService;
+import com.br.foodfacil.services.PixPaymentGateway;
 import com.br.foodfacil.services.UserService;
 import com.br.foodfacil.utils.AppUtils;
 import com.br.foodfacil.utils.GeraChavePix;
@@ -26,6 +25,10 @@ import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    PixPaymentGatewayImpl pixPaymentGateway;
+
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -36,13 +39,13 @@ public class UserServiceImpl implements UserService {
     SalgadoRepository salgadoRepository;
 
     @Autowired
-    PagamentoService pagamentoService;
+    PixPaymentGatewayImpl pagamentoServiceImpl;
 
     @Autowired
     AcompanhamentoRepository acompanhamentoRepository;
 
     @Autowired
-    TokenDoDispositivoService tokenDoDispositivoService;
+    TokenDoDispositivoServiceImpl tokenDoDispositivoServiceImpl;
 
     @Override
     public ResponseEntity<Object> updatePhoto(ProfilePhotoDto profilePhotoDto) {
@@ -232,7 +235,8 @@ public class UserServiceImpl implements UserService {
 
                 System.out.println(pagamentoBody);
 
-                chavePix = new GeraChavePix().generate(pagamentoBody).qrcode();
+               // chavePix = new GeraChavePix().generate(pagamentoBody).qrcode();
+                chavePix = pixPaymentGateway.tryGeneratePixKey(pagamentoBody).qrcode();
                 pedido.setChavePix(chavePix);
                 pedidoRepository.save(pedido);
 
@@ -267,6 +271,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Object> salvaOuAtualizaToken(TokenDoDispositivoRequestDto tokenDoDispositivoRequestDto) {
-        return tokenDoDispositivoService.salvaOuAtualiza(tokenDoDispositivoRequestDto);
+        return tokenDoDispositivoServiceImpl.salvaOuAtualiza(tokenDoDispositivoRequestDto);
     }
 }

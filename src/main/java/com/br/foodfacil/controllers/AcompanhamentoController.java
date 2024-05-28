@@ -2,7 +2,7 @@ package com.br.foodfacil.controllers;
 
 import com.br.foodfacil.dtos.AcompanhamentoRequestDto;
 import com.br.foodfacil.dtos.AcompanhamentoRequestEditDto;
-import com.br.foodfacil.services.AcompanhamentoService;
+import com.br.foodfacil.services.impl.AcompanhamentoServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(AppUtils.baseUrl + "/acompanhamento")
 public class AcompanhamentoController {
     @Autowired
-    AcompanhamentoService acompanhamentoService;
+    AcompanhamentoServiceImpl acompanhamentoServiceImpl;
 
     @PostMapping
     ResponseEntity<Object> registerAdicional(@RequestBody AcompanhamentoRequestDto acompanhamentoRequestDto){
-        return acompanhamentoService.registerAdicional(acompanhamentoRequestDto);
+        return acompanhamentoServiceImpl.register(acompanhamentoRequestDto);
     }
 
     @PutMapping("/{id}")
@@ -30,18 +30,18 @@ public class AcompanhamentoController {
             @PathVariable String id,
             @RequestBody AcompanhamentoRequestEditDto acompanhamentoRequestEditDto){
 
-        return acompanhamentoService.edita(acompanhamentoRequestEditDto, id);
+        return acompanhamentoServiceImpl.edita(acompanhamentoRequestEditDto, id);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Object> excluiSalgado(
             @PathVariable String id){
 
-        return acompanhamentoService.exclui(id);
+        return acompanhamentoServiceImpl.exclui(id);
     }
 
     @GetMapping
     ResponseEntity<Object> getAll(){
-        return acompanhamentoService.getAllAdicionais();
+        return acompanhamentoServiceImpl.getAll();
     }
 }

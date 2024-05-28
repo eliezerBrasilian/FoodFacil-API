@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class GeraChavePix {
 
-    public QrCode generate(PagamentoBody pagamentoBody) {
+   /* public QrCode generate(PagamentoBody pagamentoBody) {
         MercadoPagoConfig.setAccessToken(AppUtils.PROD_ACCESS_TOKEN);
 
         Map<String, String> customHeaders = new HashMap<>();
@@ -69,6 +69,6 @@ public class GeraChavePix {
         }catch (MPException e){
             return  null;
         }
-    }
+    }*/
 }
 
