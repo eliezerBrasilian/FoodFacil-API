@@ -7,11 +7,8 @@ services:
       - "27017:27017"
 
   app:
-    image: foodfacilapi
+    build: .
     container_name: foodfacilapi
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -20,3 +17,9 @@ services:
       SPRING_DATA_MONGODB_HOST: mongodb
       SPRING_DATA_MONGODB_PORT: 27017
       SPRING_DATA_MONGODB_DATABASE: food_facil_db
+    volumes:
+      - .:/app
+      - maven-repo:/root/.m2
+
+volumes:
+  maven-repo:
