@@ -13,9 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "FoodFacil API", version = "1", description = "API desenvolvida sistema de delivery FoodFacil"))
+@OpenAPIDefinition(info = @Info(title = "FoodFacil API", version = "1", description = "API desenvolvida para o sistema de delivery FoodFacil"))
 
 public class MainApplication {
 	@Bean
