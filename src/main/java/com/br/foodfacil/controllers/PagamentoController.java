@@ -10,6 +10,7 @@ import com.br.foodfacil.services.impl.PixPaymentGatewayImpl;
 import com.br.foodfacil.utils.AppUtils;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.HashMap;
         "https://food-facil-painel-admin.vercel.app","https://foodfacil-website.vercel.app"})
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/pagamento")
+
 public class PagamentoController {
     @Autowired
     NotificationService notificationService;

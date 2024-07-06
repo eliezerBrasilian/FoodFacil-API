@@ -4,6 +4,7 @@ import com.br.foodfacil.dtos.SaborRequestDto;
 import com.br.foodfacil.dtos.SaborRequestEditDto;
 import com.br.foodfacil.services.impl.SaborServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/sabor")
+
 public class SaborController {
     @Autowired
     SaborServiceImpl saborServiceImpl;

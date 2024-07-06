@@ -5,13 +5,18 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @SpringBootApplication
+@OpenAPIDefinition(info = @Info(title = "FoodFacil API", version = "1", description = "API desenvolvida sistema de delivery FoodFacil"))
+
 public class MainApplication {
 	@Bean
 	FirebaseMessaging firebaseMessaging() throws Exception{

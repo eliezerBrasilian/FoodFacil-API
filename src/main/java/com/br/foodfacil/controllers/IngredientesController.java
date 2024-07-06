@@ -3,6 +3,7 @@ package com.br.foodfacil.controllers;
 import com.br.foodfacil.dtos.SaborRequestDto;
 import com.br.foodfacil.services.impl.IngredienteServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
                 "https://foodfacil-website.vercel.app/"})
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/ingrediente")
+
 public class IngredientesController {
     @Autowired
     IngredienteServiceImpl ingredienteServiceImpl;

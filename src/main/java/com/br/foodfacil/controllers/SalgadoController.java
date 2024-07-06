@@ -5,6 +5,7 @@ import com.br.foodfacil.dtos.SalgadoRequestEditDto;
 import com.br.foodfacil.services.impl.SalgadoServiceImpl;
 import com.br.foodfacil.utils.AppUtils;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
         "https://food-facil-painel-admin.vercel.app", "https://foodfacil-website.vercel.app"})
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/salgado")
+
+
 public class SalgadoController {
 
     @Autowired

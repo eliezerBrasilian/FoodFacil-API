@@ -4,6 +4,7 @@ import com.br.foodfacil.dtos.LoginAuthDTO;
 import com.br.foodfacil.dtos.AuthRequestDto;
 import com.br.foodfacil.services.impl.AuthService;
 import com.br.foodfacil.utils.AppUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
                 "https://foodfacil-website.vercel.app"})
 @RestController
 @RequestMapping(AppUtils.baseUrl + "/auth")
+
 public class AuthController {
 
     @Autowired
