@@ -2,8 +2,10 @@ package com.br.foodfacil.utils;
 
 import com.br.foodfacil.enums.Item;
 import com.br.foodfacil.enums.MensagemRetorno;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -11,10 +13,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
+@Component
 public class AppUtils {
+    @Value("${prod.access.token}")
+    public static String PROD_ACCESS_TOKEN;
+
+    @Value("${test.access.token}")
+    public static  String TEST_ACCESS_TOKEN;
+
     public static final String baseUrl = "/food-facil/api/v1";
-    public static final String PROD_ACCESS_TOKEN = "APP_USR-6242384253176670-042012-080e57c4894cbf364e99dec973ef3cc8-618365626";
-    public static final String TESTE_ACCESS_TOKEN = "TEST-6242384253176670-042012-f47b1f59150e364b0788afa9cfdd23a5-618365626";
 
     public ResponseEntity<Object> AppCustomJson(MensagemRetorno mensagemRetorno, Item item){
 
